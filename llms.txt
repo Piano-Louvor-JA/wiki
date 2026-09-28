@@ -1,0 +1,49 @@
+> **Machine-readable index** (inspirado em llms.txt). Humanos: leia o
+> [README](README.md). Agentes de IA: este arquivo é o seu mapa.
+
+# Piano LouvorJA — Docs para Agentes de IA
+
+Contexto: sistema de apoio a cultos (liturgia, hinos, bíblia, projeção
+multi-tela) para desktop, web, mobile e TV. Conta GitHub: `pianolouvorja`.
+
+## Cómo usar este repo
+
+```bash
+git clone https://github.com/Piano-Louvor-JA/docs.git
+```
+
+Todo o contexto está em Markdown puro. Comece pelo `AGENTS.md` (convenções e
+regras "NUNCA faça"), depois navegue conforme a task.
+
+## Mapa de contexto (leia nesta ordem conforme a necessidade)
+
+| Arquivo | Conteúdo | Quando ler |
+|---------|----------|-----------|
+| `AGENTS.md` | Stack de cada repo, convenções, pitfalls, regras obrigatórias | **SEMPRE primeiro** |
+| `architecture/overview.md` | Visão multi-device, paridade por contrato, WS, fallback de APIs | Qualquer feature |
+| `getting-started/app.md` | Desktop Electron: setup, debug, envs | Task no repo `app` |
+| `getting-started/web.md` | Web PWA: setup, diferenças do desktop | Task no repo `web` |
+| `getting-started/api.md` | API Hono: setup, migrations, envs | Task no repo `api` |
+| `getting-started/apk.md` | Flutter: setup, dart-define, offline | Task no repo `apk` |
+| `workflows/git-and-prs.md` | Fluxo feat→staging→main, checklist de PR | Antes de commitar |
+| `workflows/releases.md` | Versionamento e release por repo | Release |
+| `agentic-dev/skills.md` | Índice de skills de domínio disponíveis | Antes de investigar domínio |
+| `agentic-dev/prompts.md` | Prompts e padrões que funcionam | Ao despachar subagentes |
+| `agentic-dev/templates/` | Templates SPEC/PLAN/TASK (SDD) | Feature nova |
+| `adr/` | Decisões de arquitetura (ADRs) | Decisão de design |
+
+## Regras inegociáveis (resumo — detalhes no AGENTS.md)
+
+1. Branch flow: `feat/*` → PR `staging` → PR `main`. Nenhuma exceção.
+2. Paridade web ↔ app ↔ APK (mesmos contratos de API, não mesmo código).
+3. TV = dumb display via WebSocket próprio. Chromecast não existe no projeto.
+4. Nunca commitar segredos, IPs de produção, credenciais.
+5. Feature grande = SDD (spec aprovada antes de código).
+6. TDD real — testes que exercitam o código de verdade.
+7. Decisão que depende de humano → parar e perguntar, nunca assumir.
+
+## Pull-based crawling
+
+Tudo aqui é Markdown estático, sem JS, sem build step necessário para leitura.
+Um crawler pode baixar o repo inteiro (`git clone`) ou usar a API
+(`GET /repos/pianolouvorja/docs/git/trees/main?recursive=1`).
