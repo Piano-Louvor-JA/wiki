@@ -11,7 +11,7 @@
 | Documento | Descrição |
 |-----------|-----------|
 | [Project Excellence](core/project-excellence.md) | Qualidade, CI, DORA, OSS Excellence, Release governance |
-| [Rafael Workflow](core/rafael-workflow.md) | Ciclo SDD → Kanban Hermes → Gauntlet → Release |
+| [Piano Workflow](core/piano-workflow.md) | Ciclo SDD → Kanban Hermes → Gauntlet → Release |
 | [Spec-Driven Development](core/spec-driven-development.md) | SPEC → PLAN → Tasks → Verify (EARS, BD-XX, RF-ID) |
 | [Writing Plans](core/writing-plans.md) | PLAN.md com fases shippable, tasks atômicas, estimativa em horas |
 | [QA Agent — 7 Gates](core/qa-agent.md) | Gatekeeper: spec compliance, mutation, lighthouse, LGPD, rastreabilidade RF-ID |

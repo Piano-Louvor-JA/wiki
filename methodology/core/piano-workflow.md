@@ -1,4 +1,4 @@
-# Rafael Workflow
+# Piano Workflow
 
 > **Metodologia pública** — ciclo SDD → Kanban Hermes → Gauntlet → Release. Aplica-se a qualquer stack.
 

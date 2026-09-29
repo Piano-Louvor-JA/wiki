@@ -35,17 +35,17 @@ regras "NUNCA faça"), depois navegue conforme a task.
 | `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
 | `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
 | `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/rafael-workflow.md` | Rafael Workflow | Processo completo |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
 | `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
 | `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
 | `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
 | `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/rafael-workflow.md` | Rafael Workflow | Processo completo |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
 | `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
 | `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
 | `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
 | `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/rafael-workflow.md` | Rafael Workflow | Processo completo |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
 
 ## Regras inegociáveis (resumo — detalhes no AGENTS.md)
 
