@@ -20,6 +20,7 @@
 - [Releases](workflows/releases.md)
 - [Desenvolvimento Agêntico](methodology/README.md) — skills de domínio, prompts e templates SDD
 - [ADRs](adr/) — decisões de arquitetura
+- [Permissões](PERMISSIONS.md) — o que você resolve sozinho e o que requer admin
 
 ## Para agentes de IA
 
