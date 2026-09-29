@@ -1,0 +1,39 @@
+# PIANO Developer Wiki
+
+Public, machine-readable onboarding map for contributors and coding agents.
+
+Repository: https://github.com/Piano-Louvor-JA/wiki
+Website: https://piano-louvor-ja.github.io/wiki/
+
+## Read first
+
+1. AGENTS.md — contribution rules and safety boundaries
+2. architecture/overview.md — multi-device contract model
+3. workflows/git-and-prs.md — branch and PR flow
+
+## Repository guides
+
+- getting-started/app.md — native desktop app
+- getting-started/api.md — API contracts and migrations
+- getting-started/apk.md — Flutter mobile
+- getting-started/web.md — browser PWA
+
+## Agentic development
+
+- agentic-dev/prompts.md — baseline audit, contract parity, evidence
+- agentic-dev/skills.md — descriptive domain index
+- agentic-dev/templates/spec-template.md — SPEC with EARS and BD-XX
+- agentic-dev/templates/plan-template.md — PLAN
+- agentic-dev/templates/task-template.md — implementation task
+
+## Decisions
+
+- adr/001-ws-proprio-multi-device.md — WebSocket receiver protocol
+- adr/003-migrations-idempotentes.md — migration execution
+
+## Invariants
+
+- Feature branches target `staging`; releases go from `staging` to `main`.
+- Desktop, web and mobile share contracts, not UI code.
+- TV receivers use the project WebSocket protocol; Chromecast and AirPlay are unsupported.
+- Do not publish credentials, personal data, private infrastructure or operational records.
