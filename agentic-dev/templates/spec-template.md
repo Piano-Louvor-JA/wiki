@@ -32,10 +32,10 @@ Acceptance criteria (EARS):
 | BD-01 | | | |
 
 ## Out of scope
-- 
+- <item>
 
 ## Dependencies
-- 
+- <item>
 ```
 
 A frozen SPEC is the implementation contract. Change it through a new reviewed version, not silent code drift.
