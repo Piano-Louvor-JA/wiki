@@ -67,7 +67,7 @@ Skill índice: NÃO duplica conteúdo das skills irmãs — carrega a certa na f
 O usuário ativa com meta + "não pare até X":
 
 ```
-rafael-workflow: <meta> — não pare até <critério com evidência>
+piano-workflow: <meta> — não pare até <critério com evidência>
 ```
 
 Ao ativar:
