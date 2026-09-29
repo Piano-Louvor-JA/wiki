@@ -1,6 +1,6 @@
 # Metodologia PIANO — Conhecimento Público
 
-> Documentação extraída e sanitizada da biblioteca de desenvolvimento do Rafael.
+> Documentação extraída e sanitizada da biblioteca de desenvolvimento do o PO.
 > Aplica-se a **qualquer stack/agente** (Claude Code, Codex, Cursor, Gemini, etc.).
 > Não requer Hermes — é conhecimento universal.
 

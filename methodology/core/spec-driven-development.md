@@ -214,7 +214,7 @@ Two-stage review:
 
 | Papel | Responsabilidade | No Hermes |
 |-------|-----------------|-----------|
-| **PO/PM** | Dono da spec. Traduz negócio → critérios de aceite. Aprova antes do código. | Você (Rafael) |
+| **PO/PM** | Dono da spec. Traduz negócio → critérios de aceite. Aprova antes do código. | Você (o PO) |
 | **Designer** | Tokens de design (espaçamento, cor, tipografia) entram na spec. UI é checada contra eles. | Skill `design-md` |
 | **Developer** | Orquestra subagentes, revisa output, merge. Em SDD vira mais "orquestração e revisão". | Hermes main agent |
 | **QA/Reviewer** | Valida contra spec, não só "funciona". | Skill `requesting-code-review` |
@@ -250,7 +250,7 @@ spec = delegate_task(
     toolsets=['terminal', 'file', 'web'],
     context="Project: [name]. Stack: [tech]. User wants: [description]."
 )
-# → Output: SPEC.md aprovado pelo PO (Rafael)
+# → Output: SPEC.md aprovado pelo PO (o PO)
 
 # 2. PLAN — Planner subagent
 plan = delegate_task(
@@ -335,7 +335,7 @@ plans a NEW project derived from an EXISTING one — the analysis phase is
 heavier (read entire source codebase) and the mapping phase is unique
 (types, components, APIs all change).
 
-## Integration with the Rafael workflow
+## Integration with the o PO workflow
 
 **Mandatory regression phase (Regression Guard, 27/09):** between SPECIFY and IMPLEMENT (and again in VERIFY), run the impact matrix from `software-development/regression-guard`: who consumes what will change. Every RF-XXX that touches existing code must list its consumers, and each consumer becomes a regression criterion in the acceptance criteria. Spec without consumer mapping for RFs that touch existing code = incomplete spec, returns to SPECIFY.
 
@@ -386,7 +386,7 @@ When stakeholder feedback fundamentally changes the architectural approach after
 When user asks to "reversa"/clone a commercial app (e.g., Play Store SaaS) and build their own version as a real product:
 
 1. **Requirements source: the store listing itself.** Extract features from the Play Store description AND the changelog ("O que há de novo" reveals feature history — "texto mensagem múltipla", "cartão fidelidade" appeared there). Requirements-level reversal needs no APK decompilation. Also mine: target audience list, pricing/trial model, developer info (solo dev = market proof).
-2. **Baseline = the user's own repos, not the competitor's code.** Search the filesystem for prior projects in the same domain and produce a reuse table (feature × repo × status). For Rafael, scheduling/booking domain: `~/repos/ignitecall-app` (scheduling domain: UserTimeInterval/Scheduling, NextAuth+Prisma), `~/repos/hairday` (vanilla agenda UX), `~/Piano-Louvor-JA-flutter` + `~/Piano-Louvor-JA/api` (Flutter offline-first + Hono/Drizzle bootstrap patterns). Port CONCEPTS to the target stack, never code.
+2. **Baseline = the user's own repos, not the competitor's code.** Search the filesystem for prior projects in the same domain and produce a reuse table (feature × repo × status). For o PO, scheduling/booking domain: `<clone local>/ignitecall-app` (scheduling domain: UserTimeInterval/Scheduling, NextAuth+Prisma), `<clone local>/hairday` (vanilla agenda UX), `~/Piano-Louvor-JA-flutter` + `<clone local do projeto>/api` (Flutter offline-first + Hono/Drizzle bootstrap patterns). Port CONCEPTS to the target stack, never code.
 3. **Deliverable set for a new commercial product (write yourself, Mega-Spec rule #5):** SPEC.md (RFs grouped by business pillar with EARS criteria + RNFs mensuráveis + Fora de Escopo + BD table) + ARCHITECTURE.md (schema, endpoints, jobs, offline-first strategy, ADRs) + DESIGN.md (tokens, linted) + AGENTS.md (with blocked-decisions BD-XX table so agents STOP) + PLAN.md (phased, each phase shippable, hour estimates) + CONTEXT.md (sources, reuse map, gotchas).
 4. **Phase the PLAN by business pillar** (e.g., Fundação → Agenda → Engajamento → Financeiro → Comercialização). Store-billing/paywall tasks always depend on human-only decisions (Play Console account, brand name, WhatsApp Cloud API/Meta Business) — block them as BD-XX rows so the agent never fakes them.
 5. **Engineering invariants for money/scheduling SaaS:** money = integer cents (`price_cents`); scheduling overlap = Postgres exclusion constraint (tstzrange + EXCLUDE gist), never client-side; availability/slots computed in backend only (multi-channel: app + public link must share one source of truth); WhatsApp = wa.me deep links first (zero cost/approval), Cloud API later behind a BD decision.

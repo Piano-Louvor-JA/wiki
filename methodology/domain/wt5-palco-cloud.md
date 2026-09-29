@@ -140,12 +140,12 @@ o que é código vs dado na sync de hino).
     webos/tizen, popup (BibleProjectionView) e StagePreview do settings.
     Validar medição real (`getBoundingClientRect`: boxBottom < footTop).
 - Popup `bible-projection__content` usa `max-width: fit-content` (fix
-   11743f3, sugestão Rafael): caixa encolhe até o conteúdo real, alinhamento
+   11743f3, sugestão o PO): caixa encolhe até o conteúdo real, alinhamento
    horizontal ancora no texto e não na borda de caixa larga fixa (56rem).
 
 ## Aceite de personalização do palco na BÍBLIA (WT-5f, 02/09 — validado E2E)
 
-4 condições do Rafael: (1) bg idêntico ao configurado; (2) font-size idêntico
+4 condições do o PO: (1) bg idêntico ao configurado; (2) font-size idêntico
 (`bibleFontSize`/`bibleTextColor`/`bibleFontWeight` do escopo bible — não os
 do hino); (3) TODA a personalização quando houver; (4) sem personalização,
 nada extra (defaults do palco = o que o popup mostra).
@@ -320,7 +320,7 @@ ao usuário.
     `0 4vw` (mesma borda da caixa de 92vw); sem o campo, mantém centro (C4).
     Ao mudar alinhamento, considerar SEMPRE os 3 elementos: caixa de texto,
     rodapé e preview.
-18. **Botão "Aplicar" no Personalizar Palco** (fix 805118d, UX Rafael): o card
+18. **Botão "Aplicar" no Personalizar Palco** (fix 805118d, UX o PO): o card
     edita um DRAFT local (`effectiveSettings = draft ?? settings`) — preview
     reage em tempo real mas `patch()`/persist/notify SÓ ocorrem no clique em
     Aplicar (Cancelar descarta). Motivo: cada tick de slider gerava
@@ -341,14 +341,14 @@ ao usuário.
  receiver browser (uppercase + caixinha + right/bottom).
 
  20. **Referência FORA da caixinha + label de versão some** (c0bbafb, print
- Rafael 02/09): a referência ficava DENTRO da borda da caixinha e colidia
+ o PO 02/09): a referência ficava DENTRO da borda da caixinha e colidia
  com o label `idleVer` (fixo bottom:3.2vh right:3vh, z-index 9999). Fix:
  (a) `#footer` com `footerRef` sobe pra `bottom:8vh` (fora da área da
  caixinha que desce até 12vh), voltando a 4vh sem referência; (b) `idleVer`
  recebe `display:none` durante projection com referência, volta no
  idle/other cases. (c) Padding interno da caixinha reduzido
  `1.6vmin 1.8vmin` → `0.9vmin 1.2vmin` (caixa mais justa ao texto,
- versículo curto cabe em menos espaço — pedido explícito do Rafael).
+ versículo curto cabe em menos espaço — pedido explícito do o PO).
  (d) O PREVIEW também reflete `bibleTextTransform` (d991a59) — ao adicionar
  qualquer campo visual novo, lembrar do StagePreview: é a 4ª superfície que
  esperta o mesmo comportamento (popup, bridge, receiver, preview).
@@ -399,7 +399,7 @@ ao usuário.
     âncora da anterior). Diferença residual honesta: line-height da TV
     (~8% maior que o clamp do popup) — perceptível só lado a lado.
 
-25. **Multi-destino por TV — decisão de produto (03/09, WT-6)**: Rafael
+25. **Multi-destino por TV — decisão de produto (03/09, WT-6)**: PO
     quer conteúdo DIFERENTE por TV (TV1=Bíblia, TV2=Música). Escolhido o
     **modelo A (TVs como "áreas")**: operador atribui cada TV a um módulo
     na UI; sem atribuição = broadcast (comportamento atual). Design:
@@ -444,7 +444,7 @@ ao usuário.
 - **BUG CRÍTICO pós-culto (06/09): receiver `/palco/` não implementa
   `case 'audio'`** (descarta envelope com console.debug) — sem player de
   áudio na TV, hino toca só no operador, tela branca até imagem resolver,
-  sem sincronia. Fix planejado (aguarda confirmação do Rafael que o som
+  sem sincronia. Fix planejado (aguarda confirmação do o PO que o som
   deve sair da TV): `<audio>` no receiver + positionMs do envelope +
   now-playing/cover/equalizador. Full doc em
   `references/production-culto-audio-kiosk-2026-09-06.md`.
@@ -521,7 +521,7 @@ ao usuário.
     com screenshot + vision antes de declarar "apareceu".
 
 33. **UX para usuário LEIGO é critério de produto, não nice-to-have (05/09,
-    feedback direto do Rafael)**: ao propor qualquer fluxo, perguntar
+    feedback direto do o PO)**: ao propor qualquer fluxo, perguntar
     "um coordenador de louvor sem conhecimento técnico consegue fazer
     sozinho?". Terminal/curl/chmod NÃO é caminho principal — é opção
     avançada escondida (ícone pequeno com tooltip). O caminho principal

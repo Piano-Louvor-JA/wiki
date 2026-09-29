@@ -1,6 +1,6 @@
 # Índice de Skills (conhecimento de domínio)
 
-> Estas skills vivem na biblioteca local do agente Hermes (Rafael). Aqui
+> Estas skills vivem na biblioteca de conhecimento do projeto. Aqui
 > registramos **o que cada uma cobre**, para que qualquer dev/agente saiba onde
 > buscar conhecimento antes de começar uma task. Peça ao agente que carregue a
 > skill relevante, ou leia o resumo abaixo.

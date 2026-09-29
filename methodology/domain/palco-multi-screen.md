@@ -126,7 +126,7 @@ críticos cobertos lá (resumo):
   RESTORE (slot atribuído com runtime vivo mostra conteúdo ATUAL do módulo
   atribuído, nunca congela) > ESPELHO legado (SÓ com owner em mirror —
   owner com rota individual NÃO vaza pros espelhos) > IDLE degradado. Zero
-  passo manual (regra Rafael: "0 atrito"). Módulo com intent vivo reassume
+  passo manual (regra o PO: "0 atrito"). Módulo com intent vivo reassume
   palco órfão (early-return do setIntent claima quando `wants && owner===null`).
   Detalhe: skill `Piano-Louvor-JA-palco-cast`
   → `references/session-2026-08-27-takeover-hibrido-telas.md`.
@@ -137,7 +137,7 @@ críticos cobertos lá (resumo):
   controles/slider de volume não afetam o vídeo (bug real 2026-08-22, fix
   ea82a11 no branch `feat/remote-control-receiver` do Piano-Louvor-JA/app).
 - **UI de Settings no web DEVE portar o CSS literal do card desktop
-  equivalente do `~/piano-app/`** (correção do Rafael, 3x na sessão 31/08 —
+  equivalente do `<clone local do app>/`** (correção do o PO, 3x na sessão 31/08 —
   "esteticamente e em funcionalidade ta diferente"). Regra: reutilizar as
   MESMAS classes CSS e estrutura DOM (`palco-slots-card`, `palco-slot`,
   `palco-slot--active`, `palco-slot__dot--on`, `palco-slot__badge`,
@@ -150,7 +150,7 @@ críticos cobertos lá (resumo):
   ZERO menção a desktop/dependência; integração dependente (TVs via
   desktop) colapsada/abaixo como opcional.
 - **UI de Settings no web DEVE espelhar o vocabulário e os componentes do
-  card desktop equivalente** (correção do Rafael, 2x na sessão 31/08: "não
+  card desktop equivalente** (correção do o PO, 2x na sessão 31/08: "não
   ta nem parecido e ainda menciona que tem dependência do desktop").
   Regras: portar header com ícone em caixinha + título + subtítulo, lista
   com dot de status, nomes "Tela principal"/"Tela {n}", hint "Nos módulos,
@@ -196,7 +196,7 @@ críticos cobertos lá (resumo):
   status checks (pendente usuário). Ver pitfalls: parte 2.
 - Issue aberta: áudio para na TV após minutos (debug via logcat).
 
-## Separação de repos web vs app (correção do Rafael, 2026-08-24)
+## Separação de repos web vs app (correção do o PO, 2026-08-24)
 
 O "modo web" do controle remoto (Web Link: APK serve WS, browser conecta)
 vive no repo **`Piano-Louvor-JA/web`**, NÃO no build browser do
@@ -214,7 +214,7 @@ AppConfirm, idiomas). Sempre confirmar o repo-alvo antes de codar feature
   individual abre popup dedicada só no slot designado (`?module=&slot=`).
   Teste em popup-windows-permission.test.ts.
 - **Roteamento módulo a módulo** nos headers de 7 módulos (PopupRouteSelect
-  compact; Bible via BibleToolbar) — removido do card de telas (Rafael: no
+  compact; Bible via BibleToolbar) — removido do card de telas (o PO: no
   app é configurado módulo a módulo, igual PalcoRouteSelect do desktop).
 - **Card Telas do Palco**: "+ Adicionar Tela"/lixeira (setPopupCount, clamp
   1..6), dot verde = popup viva real (getPopupRefs polled), play/stop por
@@ -247,7 +247,7 @@ AppConfirm, idiomas). Sempre confirmar o repo-alvo antes de codar feature
 - Seção "TVs do Palco" no `ScreensCard.vue` web: Adicionar/Remover/Play/
   Ligar TV via remote `palco.slot-add/remove/start/stop` (app branch
   `feat/remote-palco-slots` 4148061). Popup NÃO é TV — conceitos separados
-  nos cards (correção Rafael: "popup nenhuma conecta numa TV").
+  nos cards (correção o PO: "popup nenhuma conecta numa TV").
 - **WT-5 ESPECIFICADO (01-09)**: web sem desktop via relay WS na API
   própria (`/v1/palco/relay/:code`) — web e TV ambos clientes da API,
   código curto 6 chars (evolução do rendezvous remote_sessions).
@@ -310,7 +310,7 @@ commits/branches): **`references/wt5-cloud-relay.md`**. Resumo:
   desktop session; card TVs com modo cloud quando desktop offline.
 - E2E: `node scripts/wt5-e2e.mjs` (piano-api) — sessão → TV bootstrap → broadcast
   bíblia → late-join → idle, tudo SEM desktop. WT-5d ✅ (ver seção abaixo na referência).
-- **Fluxo streaming (decisão FINAL Rafael, 01/09 noite): a TV CRIA a sessão e
+- **Fluxo streaming (decisão FINAL o PO, 01/09 noite): a TV CRIA a sessão e
   mostra o código+QR no idle; o web consome `?palco=CODE` do QR** — padrão
   YouTube/Netflix ("o QR no web tá invertido"). Web: `createSession()` manual
   ficou como fallback, QR removido do card, dep `qrcode` removida. TV: OK com
@@ -357,7 +357,7 @@ commits/branches): **`references/wt5-cloud-relay.md`**. Resumo:
 - **Disco 100% trava npm/vitest** (ENOSPC): liberar ANTES de rodar testes.
   Seguro: `npm cache clean --force`, `rm -rf ~/.cache/google-chrome
   ~/.cache/node-gyp` (~750MB). NÃO apagar sem consentimento: `.ipk` velhos em
-  palco-receiver, caches gradle/flutter (Rafael bloqueia rm em massa).
+  palco-receiver, caches gradle/flutter (o PO bloqueia rm em massa).
 
 ## Web comanda TVs (WT-1/WT-2, 2026-08-31)
 
@@ -397,13 +397,13 @@ Mesma referência: `references/web-controls-tvs-2026-08-31.md`.
   Electron dev via VITE_DEV_SERVER_URL (dist sob file:// quebra com
   ERR_FILE_NOT_FOUND em /assets), SingletonLock, e correção de UI
   desambiguando "TVs (via Desktop)" vs "Telas de Projeção (popups do
-  navegador)" (feedback Rafael: dois cards "Telas" com conceitos diferentes =
+  navegador)" (feedback o PO: dois cards "Telas" com conceitos diferentes =
   confuso; diferenciar no TÍTULO).
 - `references/web-controls-desktop-sender-2026-08-31.md` — WT-1/WT-2/WT-4
   (2026-08-31): ack estendido {ok,data} em 3 camadas, token ?t= obrigatório
   no command (web sem token = bad_token + desconexão — testes com
   FakeWebSocket NÃO pegam isso), WT-4 popup-routing/?module= dedicada, e as
-  regras de UI paridade desktop exigidas pelo Rafael (2 correções na sessão).
+  regras de UI paridade desktop exigidas pelo o PO (2 correções na sessão).
 - `references/web-link-liturgy-bridge.md` — contrato Remote v1 para bridge browser ↔ APK, diagnóstico de protocolo e TDD cross-repo.
 - `references/multi-palco-pitfalls-2026-08-21.md` — sintomas, causas e correções
   para reatividade, persistência, timer/áudio, mini-player e receiver Electron.

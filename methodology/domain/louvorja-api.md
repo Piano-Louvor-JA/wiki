@@ -25,7 +25,7 @@ Load this skill when working on anything related to the LouvorJA project (louvor
 
 | Fork | Autor | Stack | Destaque |
 |------|-------|-------|----------|
-| `Piano-Louvor-JA/app` | Rafael Zendron (nosso) | Electron + Vue 3 + TS + Vite | Fork com design system proprio (PIANO) |
+| `Piano-Louvor-JA/app` | PO (nosso) | Electron + Vue 3 + TS + Vite | Fork com design system proprio (PIANO) |
 | `juanaleixo/louvorja` | Juan Aleixo | Electron + Vue 3 + Vuetify 4 + Pinia | **Mais avancado**: 31 modulos, SSE, power blocker, auto-updater, E2E tests, controle remoto completo |
 | `corugo/louvorja` | Corugo | Electron + Vue 3 | Fork menor |
 | `elvieira/LouvorJA` | Elvieira | Electron + Vue 3 + TS (branch `electron`) | **Infra robusta**: SQLite real (sql.js), AES-256-CBC, validador instalacao, download HTTP->FTP com mutex, multi-idioma DB, block DevTools producao, fundo preto + fade projecao. |
@@ -98,7 +98,7 @@ O projeto foi reestruturado da monorepo `elvieira/LouvorJA` (2 branches) para um
 | `louvorja/site` | Site publico | — |
 | `louvorja/adm` | Painel admin | — |
 
-**CRITICAL — REPO CERTO:** O repo canônico é `elvieira/LouvorJA` (branch `main` para web, branch `electron` para desktop). O branch `electron` NÃO está disponível localmente — acessar via `gh api repos/elvieira/LouvorJA/git/trees/electron?recursive=1`. Ver `references/web-parity-modules-analysis-2026-07-06.md` para gap analysis detalhado de módulos.monorepo). As issues e todo trabalho DEVEM ser criados aqui. A org `louvorja/` (app, desktop, api, site, adm) é uma separação que EXISTE mas o Elias e o Rafael trabalharam no `elvieira/LouvorJA`. **NUNCA criar issues em `louvorja/app` — SEMPRE em `elvieira/LouvorJA`.** Dentro desse monorepo, a pasta `/app` é a versão web e `/desktop` é a versão Electron.
+**CRITICAL — REPO CERTO:** O repo canônico é `elvieira/LouvorJA` (branch `main` para web, branch `electron` para desktop). O branch `electron` NÃO está disponível localmente — acessar via `gh api repos/elvieira/LouvorJA/git/trees/electron?recursive=1`. Ver `references/web-parity-modules-analysis-2026-07-06.md` para gap analysis detalhado de módulos.monorepo). As issues e todo trabalho DEVEM ser criados aqui. A org `louvorja/` (app, desktop, api, site, adm) é uma separação que EXISTE mas o Elias e o o PO trabalharam no `elvieira/LouvorJA`. **NUNCA criar issues em `louvorja/app` — SEMPRE em `elvieira/LouvorJA`.** Dentro desse monorepo, a pasta `/app` é a versão web e `/desktop` é a versão Electron.
 
 **Permissões no repo `elvieira/LouvorJA`:** Piano-Louvor-JA tem permissão de issue (criar/fechar) mas NÃO de admin (não pode criar labels). Usar labels padrão do GitHub (`enhancement`, `bug`, etc.) ou prefixar scope no título.
 
@@ -136,7 +136,7 @@ Elias decidiu (06/07/2026) deixar a versao web completa (nao mais "capada"):
 
 O repo antigo tinha dois branches (`main` web, `electron` desktop). Feature branches para desktop SEMPRE deviam ser baseadas em `electron`. No novo layout, desktop e um repo separado (`louvorja/desktop`).
 
-**FORK do Rafael:** `Piano-Louvor-JA/elias-louvorja` — push PRs aqui quando sem acesso de escrita no original. Remoto: `fork` (adicionar via `git remote add fork git@github.com:Piano-Louvor-JA/elias-louvorja.git`). **ALWAYS** push para fork e criar PR de lá.
+**FORK do o PO:** `Piano-Louvor-JA/elias-louvorja` — push PRs aqui quando sem acesso de escrita no original. Remoto: `fork` (adicionar via `git remote add fork git@github.com:Piano-Louvor-JA/elias-louvorja.git`). **ALWAYS** push para fork e criar PR de lá.
 
 **`gh` alias quebrado:** O alias `gh` aponta para `rtk` (Rust tool). Usar `/usr/bin/gh` para GitHub CLI.
 
@@ -432,7 +432,7 @@ O Elias propôs resolver o problema de 16.871 fetchs no primeiro boot do Electro
 **Estado:** Elias pediu a rota que o Delphi usa para baixar o database. Resposta: o Delphi NAO usa mais OneDrive (link retorna 404). A API hoje soh serve JSONs individuais via `/db/manifest` + `/db/{table}`.
 
 **⚠️ CONSTRAINT CRITICA — API na org louvorja, depende de PR aprovado:**
-Qualquer mudanca na API (louvorja/api) requer PR aprovado pelo Mayco. Isso inclui criar novos endpoints como `/db/bundle`. O Rafael NAO é admin da org — só pode contribuir via fork + PR. Mayco aprova sozinho e PRs grandes ficam parados.
+Qualquer mudanca na API (louvorja/api) requer PR aprovado pelo Mayco. Isso inclui criar novos endpoints como `/db/bundle`. O o PO NAO é admin da org — só pode contribuir via fork + PR. Mayco aprova sozinho e PRs grandes ficam parados.
 
 **Opcoes de implementacao CONSIDERANDO a constraint de PR na org:**
 1. ~~**Endpoint novo na API** `GET /db/bundle`~~ — PRECISA de PR aprovado na org. Demora imprevisível.
@@ -706,7 +706,7 @@ Para snapshot dinamico (bundle de N arquivos), duas opcoes:
 
 ### Testing Patterns (PHPUnit)
 
-The repo originally had NO tests. All existing tests were written by Rafael/Hermes. PHPUnit 10 with Lumen testing.
+The repo originally had NO tests. All existing tests were written by o PO/Hermes. PHPUnit 10 with Lumen testing.
 
 - **Test location:** `tests/Feature/` (NOT Unit — Lumen's `app()` helper requires bootstrapping, so Unit tests fail when calling helpers that use `app()->basePath()`)
 - **TestCase base:** `tests/TestCase.php` extends `Laravel\Lumen\Testing\TestCase` with `createApplication()` loading `bootstrap/app.php`
@@ -725,7 +725,7 @@ The repo originally had NO tests. All existing tests were written by Rafael/Herm
 ### Pontos de atencao (pitfalls)
 
 - Nao ha CI configurada nos PRs do `louvorja/app` (so deploy no push pra main)
-- **CI/CD no GitHub Actions NÃO deve ser sugerido como PR** no repo `louvorja/api` (Mayco provavelmente roda CI fora da plataforma — assim como o Rafael faz. Sugerir CI/CD como contribuição pode ser mal recebido). **Pular esse item do backlog do louvorja/api.** **NO ENTANTO, para o repo `elvieira/LouvorJA` (Electron), CI/CD É relevante** — o Elias não tem infra de build e precisa de workflow multi-plataforma. Issue #3 já foi criada sugerindo isso.
+- **CI/CD no GitHub Actions NÃO deve ser sugerido como PR** no repo `louvorja/api` (Mayco provavelmente roda CI fora da plataforma — assim como o o PO faz. Sugerir CI/CD como contribuição pode ser mal recebido). **Pular esse item do backlog do louvorja/api.** **NO ENTANTO, para o repo `elvieira/LouvorJA` (Electron), CI/CD É relevante** — o Elias não tem infra de build e precisa de workflow multi-plataforma. Issue #3 já foi criada sugerindo isso.
 - **Telegram messaging NÃO automático** — só enviar mensagem no grupo de devs (-1002108908408) quando o usuário pedir EXPLICITAMENTE. Nunca mandar por conta própria após completar tarefas ou aberturas de PR. O usuário avalia quando é o momento certo de comunicar.
 - **Lumen `response()->noContent(304)` NÃO existe** — o método `noContent()` pertence ao HTTP Client, não ao ResponseFactory do Lumen. Usar `response('', 304)` para retornar 304 Not Modified.
 - **`jsonDir()` trailing slash** — `app()->basePath('public/db/json')` retorna sem `/` no final. Concatenar diretamente com filename (ex: `self::jsonDir() . $filename`) produz path errado (`public/db/jsonmusics.json`). Sempre garantir trailing slash ou usar `rtrim()` + concat com `/`.
@@ -803,11 +803,11 @@ The repo originally had NO tests. All existing tests were written by Rafael/Herm
 
 **Visao do Elias (declarada 29/06/2026):** Versao **leve** como core (so musica + projecao) + modulos opcionais. Ja enviou o projeto pro Michael mas sem resposta ainda. Pergunta se deve criar repo novo na org ou continuar no branch atual. **Estrategia de repo: abordagem hibrida** — continuar branch agora, repo na org quando Michael responder.
 
-## PRs de Integração — Rafael vs Elias
+## PRs de Integração — o PO vs Elias
 
-### PR #37 (Rafael)
-Módulos adicionados na branch `rafael-pr37`: slide-editor, video, liturgy, bible.
-Consulte `references/pr-37-rafael-modules.md` para guia de migração Rafael→Elias e padronização de estilo.
+### PR #37 (o PO)
+Módulos adicionados na branch `o PO-pr37`: slide-editor, video, liturgy, bible.
+Consulte `references/pr-37-o PO-modules.md` para guia de migração o PO→Elias e padronização de estilo.
 
 **Version:** 1.5.0 | **Stack:** Vue 3 + Vuetify 4 + Vuex 4 + Vite 7 + Electron ^34 + vue-i18n + Options API
 **Entry:** `electron/main.js` (frameless window, custom titlebar, menu nativo, custom protocol `local://`)
@@ -946,7 +946,7 @@ Na sessao 30/06, issues #13-#23 foram criadas com afirmacoes falsas ("lyric -25 
 
 **Elias Telegram:** user_id `6572836307`, username `elvieira9`. **NUNCA perguntar ao Elias sobre organizar issues** — ja autorizado. Usar `/usr/bin/python3` para scripts Telethon (venv do Whisper nao tem Telethon). **Lista de paridade confirmada esta nesse chat (msg 29/06/2026)** — sempre ler de la em vez de tentar recriar por diff de codigo.
 
-**Forks do Rafael:**
+**Forks do o PO:**
 - API: https://github.com/Piano-Louvor-JA/api (local: /home/ubuntu/dev/workspace/projects/api)
 - App: https://github.com/Piano-Louvor-JA/app
 
@@ -1161,7 +1161,7 @@ Em 01/07/2026, um novo ciclo SDD completo foi gerado em resposta aos pedidos do 
 
 PRs #7-#9 foram fechadas por conflito apos merges do Mayco no main. Reabertas como #11-#13 rebased no main atualizado, sem conflito. PRs #13 (rate limiting), #19 (structured logging), e #25 (Swagger docs) foram merged apos rebases.
 
-**Nota sobre PRs merged com contrib do Rafael:** #9→#13 (rate limiting), #19 (Monolog logging), #25 (Swagger docs completos). Commits do Rafael confirmados no main via `git log --author="Rafael"` — todos estao no branch main.
+**Nota sobre PRs merged com contrib do o PO:** #9→#13 (rate limiting), #19 (Monolog logging), #25 (Swagger docs completos). Commits do o PO confirmados no main via `git log --author="o PO"` — todos estao no branch main.
 
 Ordem de merge recomendada: qualquer ordem — todos estao CLEAN/MERGEABLE.
 
@@ -1322,7 +1322,7 @@ Padrão recorrente quando Diego ou outros membros pedem features via Telegram:
 Ver `references/rate-limiting-architecture.md` — arquitetura de buckets separados (files/metadata/general), lang prefix normalization, PR #27, pitfalls do contador compartilhado original.
 
 5. **Se não tiver permissão de push:**
-   - O Rafael não tem permissão de admin na org louvorja
+   - O o PO não tem permissão de admin na org louvorja
    - Não pode dar permissão a outros membros (ex: Diego)
    - Não pode dar push direto no repo louvorja/api
    - Solução: Usuário deve fazer push manualmente ou dar permissão

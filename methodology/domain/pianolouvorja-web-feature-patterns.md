@@ -423,7 +423,7 @@ Para controle remoto multi-repo, testes de parser/handler não comprovam operaç
 
 #### Fechamento de projeção de mídia — PEDIDO DO USUÁRIO PENDENTE
 
-O Rafael pediu explicitamente (2026-08-24, AINDA NÃO IMPLEMENTADO): fechar a
+O o PO pediu explicitamente (2026-08-24, AINDA NÃO IMPLEMENTADO): fechar a
 janela de projeção deve (1) pedir confirmação via AppConfirm (evitar fechamento
 acidental) e (2) PARAR a música — hoje o áudio continua tocando em segundo
 plano após a janela fechar. Ao implementar: interceptar close da janela de
@@ -579,12 +579,12 @@ aside.scrollTo({ top, behavior: 'auto' })  // sem smooth: evidência imediata, s
 
 Teste unitário da função pura (`revealItemScrollTop`) + regra: só o aside rola; scroll imediato (smooth acumula com trocas consecutivas de slide). PRs app#145 / web#128.
 
-### Web comanda TVs: web = controle, desktop = sender (arquitetura aprovada pelo Rafael, 2026-08-31)
+### Web comanda TVs: web = controle, desktop = sender (arquitetura aprovada pelo o PO, 2026-08-31)
 
 ### DESTINOS DE PROJEÇÃO (regras duras aprendidas no WT-5, noite 01/09 — consolidadas na sessão final2):
 
 **Padrões universais desta feature (reincidentes — regra de ouro):**
-- **Fix de padrão em múltiplos stores = grepar TODO `src/modules/*/stores`** (clock escapou do fix de toggle e o Rafael pegou o mesmo bug nele).
+- **Fix de padrão em múltiplos stores = grepar TODO `src/modules/*/stores`** (clock escapou do fix de toggle e o o PO pegou o mesmo bug nele).
 - **Runtime builder não sabe de destino**: `active` = sessão viva; parar é EXCLUSIVIDADE do clearProjection com idle explícito (condicionar active a flag de rota matou a rota mirror — regressão b7b4e44).
 - **Toggle decide por estado (`isProjecting`), nunca por `isPopupModuleOpen`** — rota 'tv' não tem popup e o clique reprojetava em vez de parar.
 - **Dois sistemas de nomes (moduleId vs scope) exigem tradução centralizada em UM lugar** (stageStyle no bridge: media→hymns) — consultas com o nome errado caem em defaults silenciosamente.
@@ -605,7 +605,7 @@ Teste unitário da função pura (`revealItemScrollTop`) + regra: só o aside ro
   global escrito pelo dono da conexão no onopen) — NUNCA import entre eles (Vite cria
   múltiplas instâncias de módulo com HMR/code-splitting e o import pega
   instância com ws=null). Verificado 4x nesta feature — import estático NÃO resolve.
-- **Paridade visual popup↔TV (regra do Rafael: "a projeção do operador deve ser
+- **Paridade visual popup↔TV (regra do projeto: "a projeção do operador deve ser
   idêntica ao que vai ser projetado em telas")**: toda projection carrega os
   StageSettings efetivos do módulo; fonte px@1920 com divisor **19.2** no receiver
   (10.8 = fonte 78% maior); BG: bg custom > capa do hino > backgroundColor do palco
@@ -632,7 +632,7 @@ Teste unitário da função pura (`revealItemScrollTop`) + regra: só o aside ro
   payload que cruza dispositivo NUNCA leva path do bundle; `toReceiverMessage`
   async, send dentro de IIFE), geometria casada (padding 3vh/4vw, max-width 92vw,
   line-height 1.25) + **AUTO-FIT no receiver** (reduz fonte ×0.94 até caber em
-  76vh — "2 linhas no popup = 2 na TV", regra do Rafael). Rodada 6:
+  76vh — "2 linhas no popup = 2 na TV", regra do projeto). Rodada 6:
   `references/wt5-session-2026-09-01-final6.md`.
 
 Pedido: "o web controla TVs similar ao que já se faz no app, projetando em monitores E televisores". Fronteira física: browser não abre porta → TV SEMPRE conecta no sender WS/HTTP (:7080/:7081, +2 por slot) hospedado no **Electron main**; o web comanda via `WebRemoteBridge.sendCommand('palco.*')` (remote v1 → remote-server do Electron, namespace já existe). Monitores = popups do browser (F3 da SPEC, BroadcastChannel). Fases WT-1 (status) → WT-2 (comandos + roteamento por módulo) → WT-3 (áudio TV↔local sem eco) → WT-4 (= F3). Spec no Obsidian: `04-Projects/PIANO Web - TVs e Monitores (Palco no web).md`. Detalhes de protocolo: skill `palco-multi-screen`.
@@ -1226,20 +1226,20 @@ O app implementa o picker "Adicionar à playlist" como overlay custom (`position
 
 Elementos que a versão inicial web errou e o port corrigiu: botões-ícone compactos (ti-upload/ti-download) ao lado do Criar em vez de v-btn com texto; ícone de playlist em quadrado `2.2rem` com fundo `color-mix(primary 18%)` (ti-music-off quando vazia); chevron à DIREITA que fica primary quando aberto; play/lixeira como quadrados `2.1rem` com borda (lixeira → #ff6b6b no hover); tracks com índice tabular em `--ds-color-primary`; feedback de import como `<p>` inline no card (não toast Teleport); TransitionGroup `playlist-card` + Transition `playlist-tracks`. Strings hardcoded PT da view ("Playlists", "Criar", "Nenhuma playlist...") foram pra locale — novas telas já nascem i18n.
 
-### UI parity web↔app: portar LITERAL de ~/piano-app, não re-implementar (REGRA do Rafael, 2026-08-31)
+### UI parity web↔app: portar LITERAL de ~/piano-app, não re-implementar (REGRA do o PO, 2026-08-31)
 
-Quando o pedido for "deixar o web equiparado ao app em UI/UX", a referência é o TEMPLATE+CSS de `~/piano-app/` — ctrl+C/ctrl+V com adaptações mínimas (Electron→browser), NUNCA re-implementação com componentes Vuetify. Caso real: o picker de playlist foi re-implementado com `v-dialog`/`v-card` no web; sem os estilos do Vuetify aplicados degradou pra texto cru no rodapé, e o Rafael devolveu duas vezes ("meio q tem q ser um ctrl+C ctrl+v da ui do app", "ainda falta muito pra chegar na paridade"). O app usa overlay próprio (`position:fixed` + backdrop blur + painel com corte diagonal) — portei 1:1 e fechou.
+Quando o pedido for "deixar o web equiparado ao app em UI/UX", a referência é o TEMPLATE+CSS de `<clone local do app>/` — ctrl+C/ctrl+V com adaptações mínimas (Electron→browser), NUNCA re-implementação com componentes Vuetify. Caso real: o picker de playlist foi re-implementado com `v-dialog`/`v-card` no web; sem os estilos do Vuetify aplicados degradou pra texto cru no rodapé, e o o PO devolveu duas vezes ("meio q tem q ser um ctrl+C ctrl+v da ui do app", "ainda falta muito pra chegar na paridade"). O app usa overlay próprio (`position:fixed` + backdrop blur + painel com corte diagonal) — portei 1:1 e fechou.
 
 ### FAB da paleta: static em slot do pai, NUNCA fixed/Teleport global (paridade app, 2026-08-31)
 
-O `StagePaletteButton` no app é `position: static` dentro de um wrapper posicionado pelo PAI — nunca `position: fixed` com Teleport to="body". O fixed global sobrepõe título/letra/aside (o Rafael reportou "botões fab sobrepor texto"). Mapeamento correto por view (validado em prints do app rodando, commit `c13ab6b`+`7413aeb`):
+O `StagePaletteButton` no app é `position: static` dentro de um wrapper posicionado pelo PAI — nunca `position: fixed` com Teleport to="body". O fixed global sobrepõe título/letra/aside (o o PO reportou "botões fab sobrepor texto"). Mapeamento correto por view (validado em prints do app rodando, commit `c13ab6b`+`7413aeb`):
 
-- **Central de Mídia (AlbumsView): SEM FAB** — Rafael explícito ("aqui no albums acredito q não precise"); removido em `6f2d375`.
+- **Central de Mídia (AlbumsView): SEM FAB** — o PO explícito ("aqui no albums acredito q não precise"); removido em `6f2d375`.
 - **Coletânea (AlbumCollectionView): coluna própria ACIMA do header** — FAB sozinho na primeira linha à esquerda, voltar+ícone+título embaixo (print do app: FAB(52,177) acima do voltar(50,235)). Negative-margin pra "subir" o header SOBRE PÕE o FAB — não usar.
 - **Player (MediaView):** absolute no canto do palco (`.media-window__stage-palette`, stage com `position: relative`).
 - **Bíblia:** dentro de `.bible-toolbar__actions`.
 - **Liturgia/Random: inline no header** — Liturgia num `header-start` agrupando FAB+brand (slot absolute top-right SOBREPÕE o bloco "Programação/data"); Random logo após o botão voltar.
-- **LiturgyView do APP** ganhou o FAB a pedido do Rafael (`feat/palette-fab-views`, FAB + PalcoRouteSelect no header) — features de UI continuam nascendo no app primeiro.
+- **LiturgyView do APP** ganhou o FAB a pedido do o PO (`feat/palette-fab-views`, FAB + PalcoRouteSelect no header) — features de UI continuam nascendo no app primeiro.
 
 Regras duras: o componente em si é `position: static` (revert do Teleport+fixed era o diff inteiro entre repos); **o print do app rodando no usuário é a fonte da verdade visual, não o CSS do repo** (v1.22.0 instalado mostrava FAB à esquerda num CSS que dizia right); ao portar componente posicionado, fazer `diff` do arquivo entre os dois repos antes de assumir.
 
@@ -1254,17 +1254,17 @@ hub + export/import (`playlist-io.ts` com deep copy — corrigiu shallow copy
 latente do app), ESC agregador com confirmação, autoclose vídeo/YouTube.
 Detalhe: `references/web-parity-f1-2026-08-31.md`.
 
-Decisões de escopo do Rafael + arquitetura (media-queue.ts puro, store reativo,
+Decisões de escopo do o PO + arquitetura (media-queue.ts puro, store reativo,
 playlist-storage localStorage, UI picker/toast/acordeão), pitfalls de PR
 empilhada e branch restack com subagent. Detalhe completo:
 `references/playlists-feature.md`.
 
 - "Tocar tudo" SOMENTE dentro da coletânea; sem botão por categoria/global
-  (Rafael pediu remoção explícita do botão de categoria).
+  (o PO pediu remoção explícita do botão de categoria).
 - Hinários (`kind==='hymnal'`) nunca ganham auto-play; faixa individual entra
   em playlist manual.
 - Picker de faixa SÓ adiciona a playlists EXISTENTES; criar é só no hub —
-  Rafael julgou criação no picker desnecessária.
+  o PO julgou criação no picker desnecessária.
 - Feedback de adição = TOAST fixo no rodapé (✓ + "‘Faixa’ adicionada a
   ‘Playlist’", some em ~2,6s); duplicata consecutiva gera toast "já está" —
   nunca silêncio (`addPlaylistItem` retorna `{playlist, added}`).

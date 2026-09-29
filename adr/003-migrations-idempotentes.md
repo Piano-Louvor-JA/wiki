@@ -1,6 +1,6 @@
 # ADR-003: Runner de migrations statement-a-statement idempotente
 
-**Status:** Aceita · **Data:** 2026 · **Decisor:** Rafael · **Origem:** PR api#88
+**Status:** Aceita · **Data:** 2026 · **Decisor:** o PO · **Origem:** PR api#88
 
 ## Contexto
 

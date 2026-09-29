@@ -54,7 +54,7 @@ pnpm run version:major   # 1.15.2 → 2.0.0   (breaking change)
 ```
 Ezequias Fonseca como reviewer default em TODOS os PRs.
 
-### Pendente (requer admin — Ezequias ou Rafael com admin)
+### Pendente (requer admin — Ezequias ou o PO com admin)
 - Ativar `Require review from Code Owners` nas branch protection rules
 - Settings > Branches > staging e main > Enable code owner reviews
 - Criar as 10 labels listadas acima
@@ -117,7 +117,7 @@ Config em `.github/labeler.yml`.
 
 | Papel | Responsável |
 |-------|-------------|
-| Backend/Código | Rafael Zendron |
+| Backend/Código | PO |
 | Deploy/Servidor/Secrets | Ezequias Fonseira |
 
 **NÃO inventar outros membros.** Se não sabe, pergunte ou deixe vazio. (Veja `communication-preferences` skill — seção "NUNCA Inventar Membros da Equipe")
@@ -250,7 +250,7 @@ O HeroSection tem um preview que replica visualmente o `AppShell` do webapp:
 
 ### Novo repo: Piano-Louvor-JA/site (site/landing page)
 
-- **GitHub org repo**: `github.com/Piano-Louvor-JA/site` (VAZIO — sem branches pushed até 01/08/2026)- **Fork pessoal**: `github.com/Piano-Louvor-JA/site` (Rafael tem WRITE no fork, READ-ONLY no org repo)
+- **GitHub org repo**: `github.com/Piano-Louvor-JA/site` (VAZIO — sem branches pushed até 01/08/2026)- **Fork pessoal**: `github.com/Piano-Louvor-JA/site` (o PO tem WRITE no fork, READ-ONLY no org repo)
 - **Local path**: `/home/ubuntu/piano-site`
 - **Stack**: Nuxt 4.5.1 + Vue 3.5.40 + SSG (`ssr: true`, `nitro: { preset: 'static' }`)
 - **Testes**: Vitest (100% coverage all thresholds) + Playwright E2E + Storybook 9
@@ -278,7 +278,7 @@ staging → PR → main (produção)
 
 #### CI/CD do Piano-Louvor-JA/site — Audit completo (01/08/2026)
 
-O Ezequias pre-configurou toda a esteira CI/CD antes do Rafael comecar. Setup bem estruturado:
+O Ezequias pre-configurou toda a esteira CI/CD antes do o PO comecar. Setup bem estruturado:
 
 **3 Workflows**:
 - `ci.yml` (4 jobs): quality → sonar (SonarQube scan) → build (SSG) → mutation (Stryker, PR-only)
@@ -480,7 +480,7 @@ const auth = getAuth(app);
 
 async function main() {
   const email = 'novo.admin@exemplo.com';
-  const password = 'Piano@2026'; // senha provisória — dashboard força troca no 1o login
+  const password = '********'; // senha provisória — dashboard força troca no 1o login
 
   try {
     // Verificar se já existe
@@ -509,7 +509,7 @@ Executar: `cd ~/piano-site && node create-admin-user.cjs`
 
 **Após criar o usuário**, adicionar o email dele em `ADMIN_EMAILS` no `.env` (comma-separated). NUNCA usar write_file no .env — usar Python file I/O para fazer replace de uma linha (ver pitfall "NUNCA usar write_file em .env").
 
-O dashboard (`admin/index.vue`) já tem lógica que detecta se o usuário está usando a senha provisória (`Piano@2026`) e força a troca no primeiro login via modal.
+O dashboard (`admin/index.vue`) já tem lógica que detecta se o usuário está usando a senha provisória (`********`) e força a troca no primeiro login via modal.
 
 ### Regra: SEMPRE carregar skills do projeto antes de trabalhar (05/08/2026)
 
@@ -549,7 +549,7 @@ runtimeConfig: {
 ```
 E no `.env`:
 ```
-ADMIN_EMAILS=rafael.zendron22@gmail.com
+ADMIN_EMAILS=admin@pianolouvorja.com.br
 ```
 
 **Regra:** Toda chave de `runtimeConfig.public` que composables leem via `useRuntimeConfig()` DEVE estar declarada no `nuxt.config.ts`. O Nuxt nao cria chaves implicitamente.
@@ -561,7 +561,7 @@ O dashboard `/admin` usa Firebase Authentication para login. Para acessar:
 1. **Firebase Console** (https://console.firebase.google.com):
    - Criar/selecionar projeto
    - Authentication > Sign-in method > ativar Email/Password
-   - Authentication > Users > adicionar usuario (ex: rafael.zendron22@gmail.com + senha)
+   - Authentication > Users > adicionar usuario (ex: admin@pianolouvorja.com.br + senha)
 
 2. **Project Settings** (gear icon > Project settings > General > SDK setup):
    - Copiar as credenciais web (apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId)
@@ -574,7 +574,7 @@ FIREBASE_PROJECT_ID=projeto-id
 FIREBASE_STORAGE_BUCKET=projeto.appspot.com
 FIREBASE_MESSAGING_SENDER_ID=123456789012
 FIREBASE_APP_ID=1:123456789012:web:abcdef123456
-ADMIN_EMAILS=rafael.zendron22@gmail.com
+ADMIN_EMAILS=admin@pianolouvorja.com.br
 ```
 
 4. Acessar `/admin/login`, autenticar com email+senha do Firebase. O middleware `auth.ts` valida `isAdmin()` comparando o email autenticado contra `ADMIN_EMAILS`.
@@ -610,8 +610,8 @@ Ver `references/dev-server-ports-and-admin-dashboard.md` secao "Criar usuario Fi
 **Usuarios cadastrados (05/08/2026):**
 | Email | UID | Senha provisoria |
 |-------|-----|------------------|
-| rafael.zendron@Piano-Louvor-JA.com.br | (Firebase Auth) | Piano@2026 |
-| ezequiasfonseca@gmail.com | Vb63VsfTrcTYYt9W1cIZmuPnPnf1 | Piano@2026 |
+| admin@pianolouvorja.com.br | (Firebase Auth) | ******** |
+| mantenedor@pianolouvorja.com.br | Vb63VsfTrcTYYt9W1cIZmuPnPnf1 | ******** |
 
 **Stack do dashboard:** `useFirebaseAuth.ts` (signIn/signOut/initAuthListener) + `useAuthState.ts` (estado reativo global) + `useFirebaseClient.ts` (inicializa Firebase App + Auth) + `firebase.client.ts` plugin (provide `$firebaseAuth`) + `auth.ts` middleware (protege rotas `/admin/**`).
 
@@ -637,7 +637,7 @@ auth.createUser({ email: 'user@example.com', password: 'TempPass@2026', displayN
 
 OU escrever um arquivo `.cjs` temporario e rodar `node file.cjs` de dentro do projeto.
 
-**Senha provisoria padrao:** `Piano@2026`. O dashboard forca troca no primeiro login (modal `mustChangePassword` em `admin/index.vue`).
+**Senha provisoria padrao:** `********`. O dashboard forca troca no primeiro login (modal `mustChangePassword` em `admin/index.vue`).
 
 ### Dashboard com Stats Reais — Phase 1 (05/08/2026)
 
@@ -690,8 +690,8 @@ O dashboard `/admin` agora tem dados reais de 4 fontes via APIs REST (sem Firest
 - **Duplicated imports warning**: Se dois arquivos em `server/utils/` exportam funcoes com o mesmo nome (`__setOctokitForTesting`), o Nuxt alerta `Duplicated imports`. Cosmetic, nao bloqueia.
 
 **Usuarios Firebase Auth:**
-- rafael.zendron@Piano-Louvor-JA.com.br + ezequiasfonseca@gmail.com
-- Senha provisoria `Piano@2026`, `ADMIN_EMAILS` comma-separated no `.env`
+- admin@pianolouvorja.com.br + mantenedor@pianolouvorja.com.br
+- Senha provisoria `********`, `ADMIN_EMAILS` comma-separated no `.env`
 
 **Blocked (Ezequias):** GITHUB_TOKEN, GOOGLE_ANALYTICS_ID, Firestore API activation.
 
@@ -884,7 +884,7 @@ Estes padroes foram validados durante a implementacao do MVP e servem como refer
 - **i18n key pattern**: `navLinks` em `site.ts` usa interface `{ i18nKey: string, href: string }` — componentes fazem `$t(link.i18nKey)`.
 - **Web3Forms**: endpoint POST `https://api.web3forms.com/submit`, form `reactive` com `status: 'idle'|'sending'|'success'|'error'`.
 - **Versionamento**: package.json `version: "1.0.0"`, `license: "MIT"`, `author: "Equipe LouvorJA"`. CHANGELOG.md segue Keep a Changelog 1.1.0 + SemVer 2.0.0.
-- **Atribuicao no footer**: NUNCA assinar como projeto pessoal do Rafael. Usar `$t('footer.developedBy')` que renderiza "Desenvolvido pela equipe LouvorJA" + link para portfolio da equipe.
+- **Atribuicao no footer**: NUNCA assinar como projeto pessoal do o PO. Usar `$t('footer.developedBy')` que renderiza "Desenvolvido pela equipe LouvorJA" + link para portfolio da equipe.
 - **Seletor de idioma**: DEVE ser interativo (clique, troca de locale em tempo real via `useI18n().locale`), nao apenas link hreflang. Padrao: dropdown no header com bandeira + nome.
 - **ANCHOR NAVIGATION (cross-page + locale-aware)**: `navLinks` em `site.ts` usa hrefs de ancora (`#features`, `#platforms`, `#how-it-works`, `#about`). Essas ancoras SO existem na home (`/`). Em `/docs` ou `/contact`, `<a href="#features">` nao navega — o browser procura a ancora na pagina atual. CORRECAO OBRIGATORIA: usar `<NuxtLink>` (nao `<a>`) com funcao `navHref()` que detecta a rota atual via `useRoute()` e usa `localePath()` para preservar o idioma. Aplicar em TODOS os componentes que renderizam `navLinks` (TheHeader, TheFooter, mobile menu). Tambem adicionar `scroll-padding-top: 5rem` no `html` do CSS global para o header fixo nao esconder o titulo da secao alvo.
 
@@ -954,7 +954,7 @@ Estes padroes foram validados durante a implementacao do MVP e servem como refer
 - Uma sessão inicial decidiu Supabase (PostgreSQL, servidores SP, open source) e documentou em SPEC.md/PLAN.md.
 - **Mas o Ezequias preferiu Firebase.** Confirmado em conversa no Telegram (02/08/2026, 14:25): quando perguntado "pro dash oq vc acha melhor firebase ou supabase?", ele respondeu "Firebase".
 - **SPEC.md e PLAN.md foram atualizados para Firebase** na mesma data, respeitando a decisão do mantenedor.
-- **Lição:** sempre verificar a preferência do mantenedor antes de documentar uma decisão de BD. Decisões técnicas de infra pertencem ao Ezequias (Deploy/Servidor/Secrets), não ao Rafael (Backend/Código).
+- **Lição:** sempre verificar a preferência do mantenedor antes de documentar uma decisão de BD. Decisões técnicas de infra pertencem ao Ezequias (Deploy/Servidor/Secrets), não ao o PO (Backend/Código).
 - **Implicações do Firebase:** LGPD exige atenção extra (dados em us-central1/EUA, não em São Paulo como Supabase). Privacy policy precisa de cláusula de transferência internacional de dados.
 
 ### Branding: "equipe Piano" nao "equipe LouvorJA" (04/08/2026)
@@ -1518,8 +1518,8 @@ Detalhes completos (comandos YAML, configs, prioridades P1/P2) em `references/pi
 O repo `Piano-Louvor-JA/site` é **PÚBLICO**. Toda vez que for commitar, verificar se NÃO está expondo:
 
 **1. Dados pessoais (PII):**
-- Nomes de pessoas (Rafael Zendron, Ezequias Fonseca, etc.) → redact para `[Encarregado designado]`, `mantenedor`, ou `[removido]`
-- Emails pessoais (`rafael.zendron22@gmail.com`) → `privacidade@Piano-Louvor-JA.com`
+- Nomes de pessoas (PO, Ezequias Fonseca, etc.) → redact para `[Encarregado designado]`, `mantenedor`, ou `[removido]`
+- Emails pessoais (`admin@pianolouvorja.com.br`) → `privacidade@Piano-Louvor-JA.com`
 - GitHub usernames (`Piano-Louvor-JA`) em docs internos
 
 **2. Domínio de email correto:**
@@ -1540,7 +1540,7 @@ grep -rn '@Piano-Louvor-JA\\.com\b' docs/   # .com sem .br — também errado
 **Checklist pré-commit COMPLETO (rodar sempre antes de amend/commit):**
 ```bash
 # 1. PII + domínio errado (deve retornar 0):
-grep -rn 'rafael\.zendron\|Piano-Louvor-JA\|Ezequias\|louvorja\.app' . --include='*.md' --include='*.vue' --include='*.ts'
+grep -rn 'o PO\.zendron\|Piano-Louvor-JA\|Ezequias\|louvorja\.app' . --include='*.md' --include='*.vue' --include='*.ts'
 # 2. Email sem .br (deve retornar 0):
 grep -rPn 'Piano-Louvor-JA\.com(?!\.br)' . --include='*.md' --include='*.vue' --include='*.ts' --include='*.json'
 ```
@@ -1573,7 +1573,7 @@ Depois fazer `git add` dos arquivos (excluindo coverage) e `git commit --amend -
 **Checklist pré-commit LEGADO (substituído pelo completo acima):**
 ```bash
 # Verifica apenas nomes/domínio legacy — use o checklist completo acima
-grep -rn 'rafael\.zendron\|Piano-Louvor-JA\|Ezequias\|louvorja\.app' . --include='*.md' --include='*.vue' --include='*.ts'
+grep -rn 'o PO\.zendron\|Piano-Louvor-JA\|Ezequias\|louvorja\.app' . --include='*.md' --include='*.vue' --include='*.ts'
 ```
 
 Detalhes do audit completo (incluindo migração Web3Forms key, redação PII, deletion HOMOLOGATION.md) em `references/piano-site-security-audit.md`.

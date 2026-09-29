@@ -57,7 +57,7 @@ Detalhes: `references/multi-fix-branch-pr-workflow.md`
 
 ## Workflow: Iteração de Layout UI com Feedback Vago
 
-O Rafael descreve ajustes visuais em linguagem natural ambígua ("gap de 80px",
+O o PO descreve ajustes visuais em linguagem natural ambígua ("gap de 80px",
 "mais sutil", "lado a lado de forma harmoniosa"). Regras para evitar
 alucinação de layout e acúmulo de patches errados:
 
@@ -212,7 +212,7 @@ NUNCA commitar fixes de natureza diferente no mesmo PR. Ex: um fix de route guar
 | `Piano-Louvor-JA/web` | Tailwind CSS v4 + Vuetify 4.1 (COEXISTINDO) | `window.open()` popups + BroadcastChannel | `~/piano-web` |
 
 ### APP (`github.com/Piano-Louvor-JA/app`)
-Ezequias Fonseca (mantenedor, Telegram ID: 1131766246). Rafael é colaborador com Write access. Branch default: `main`. Desktop Electron 43.
+Ezequias Fonseca (mantenedor, Telegram ID: 1131766246). o PO é colaborador com Write access. Branch default: `main`. Desktop Electron 43.
 
 ### WEB (`github.com/Piano-Louvor-JA/web`)
 Web responsivo. Stack: Vue 3.5 + Tailwind v4 + **Vuetify 4.1** + Pinia + TypeScript + Vite 8 + vite-plugin-pwa. Multi-tela via popups do navegador (`?slot=N`). Tailwind v4 e Vuetify 4.1 **coexistem** — Tailwind para utilities/layout, Vuetify para componentes (VBtn, VSheet, etc.) e a API responsiva `useDisplay()`. Design system proprio com tokens CSS (`var(--ds-*)`). SEM Vitest (0 testes).
@@ -1351,10 +1351,10 @@ fix/feat → PR staging → (valida em staging) → PR main
 3. Rodar `npm run check` antes de push (Biome check completo)
 4. Push: `git push origin <branch>`
 5. PR com `gh pr create --base staging` (NÃO mais `--base develop`)
-6. Code review obrigatorio (Rafael e Ezequias revisam PRs um do outro)
+6. Code review obrigatorio (o PO e Ezequias revisam PRs um do outro)
 7. Merge em staging → validar → PR staging → main
 
-**REGRAS:** TODOS os colaboradores usam PR, inclusive Rafael e Ezequias entre si. Motivo: code review, alinhar, evitar retrabalho. Qualquer mudanca — inclusive correcoes — deve ir via PR.
+**REGRAS:** TODOS os colaboradores usam PR, inclusive o PO e Ezequias entre si. Motivo: code review, alinhar, evitar retrabalho. Qualquer mudanca — inclusive correcoes — deve ir via PR.
 
 ## Documentos SDD (SPEC + PLAN + AGENTS + CONTEXT)
 
@@ -1514,7 +1514,7 @@ Se o usuário disser "inverteu" ou "trocado": inverter imediatamente o mapeament
 
 ## Preferência: Túnel Live para Trabalho de UI (27-28/07/2026)
 
-O usuário (Rafael) pediu explicitamente "liga pra mim um túnel pra eu acompanhar o que vc tá fazendo" ao trabalhar em UI/responsividade.
+O usuário (o PO) pediu explicitamente "liga pra mim um túnel pra eu acompanhar o que vc tá fazendo" ao trabalhar em UI/responsividade.
 
 **Quando trabalhar em UI do PIANO (web ou app):**
 1. Subir dev server (`npx vite --port 5174 --host`) em background

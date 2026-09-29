@@ -12,7 +12,7 @@
 | Web ↔ APK (WebRTC P2P 2-QR) | ninguém (DataChannel) | offer QR → APK answer QR → web lê com webcam | ⚠️ código existe mas REPROVADO como fluxo principal |
 
 ### Por que o 2-QR WebRTC foi reprovado (lição de UX)
-- Rafael: "o ideal é q o usuario não tenha q colar nada e que ja seja possivel resolver só com o qr" — 2 trocas (offer + answer) = fricção estrutural, não ajustável.
+- o PO: "o ideal é q o usuario não tenha q colar nada e que ja seja possivel resolver só com o qr" — 2 trocas (offer + answer) = fricção estrutural, não ajustável.
 - Bugs reais encontrados: (1) `onIceGatheringState=complete` do flutter_webrtc não dispara confiavelmente — answer saía só com candidatos loopback (127.0.0.1) e nunca conectava. Fix: escutar `onIceCandidate` (não `onCandidate` — nome errado da API) + idle timer 1.5s. (2) `SelectableText` com `maxLines: 3` trunca na cópia — SDP copiado incompleto = answer "inválido".
 - Regra geral: quando um lado tem câmera e o outro tem tela, o lado com CÂMERA escaneia; o lado que pode SERVIDOR (WS embutido) serve. 1 QR, 0 digitação.
 
@@ -26,7 +26,7 @@ JSON sobre WS/DataChannel, proto v1.2 (RemoteCommand/RemotePlayerState). Mesmo s
 - Rota web: `/settings/remote` — `isElectronShell() ? RemotePairingView(WS desktop) : WsPairingView(scan)`
 
 ## Scanner QR unificado — SEMPRE classificar payload
-QR pode ser: `louvorja://...` (desktop WS), `ws://...` (APK web link), `{sdp,type}` JSON (P2P offer). O scanner classifica (`startsWith('ws://')` / JSON parse com `sdp`+`type`) e roteia. Nunca hardcode um formato só — Rafael bateu o olho nisso ("apk acusa q o qr do web não é valido pq de fato não é").
+QR pode ser: `louvorja://...` (desktop WS), `ws://...` (APK web link), `{sdp,type}` JSON (P2P offer). O scanner classifica (`startsWith('ws://')` / JSON parse com `sdp`+`type`) e roteia. Nunca hardcode um formato só — o PO bateu o olho nisso ("apk acusa q o qr do web não é valido pq de fato não é").
 
 ## QR libs (nomes exatos — já errei)
 - Flutter: `qr_flutter` → widget `QrImageView`, enum `QrErrorCorrectLevel.L/M` (não `QrErrorCorrectionLevel`, não `QrErrorCorrections`). Leitura: `mobile_scanner`.
@@ -38,9 +38,9 @@ QR pode ser: `louvorja://...` (desktop WS), `ws://...` (APK web link), `{sdp,typ
 - `Piano-Louvor-JA/web` = PIANO web novo (v1.18+, Vue3+Vuetify4+Vite8, módulos espelhados, SEM remote ainda) — **base futura do web; não desenvolver remote no repo app/web antigo**
 - `Piano-Louvor-JA/apk` = Flutter mobile
 
-## UX por plataforma (cobrança explícita do Rafael)
+## UX por plataforma (cobrança explícita do o PO)
 - Web não tem auto-update nem dados locais desktop → NÃO copiar seções "Atualizações"/"Dados locais" pro settings web.
-- Features nascem JUNTAS em desktop+web+APK quando da mesma família (liturgia/controle) — senão Rafael cobra depois.
+- Features nascem JUNTAS em desktop+web+APK quando da mesma família (liturgia/controle) — senão o PO cobra depois.
 
 ## i18n pitfalls (webapp Vue)
 - Locale TS com aspas simples QUEBRA o build oxc se a string contém apóstrofo (`phone's`) — usar aspas duplas. Aconteceu 2x na mesma sessão.

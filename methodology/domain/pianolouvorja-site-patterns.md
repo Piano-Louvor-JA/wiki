@@ -88,7 +88,7 @@ const serviceAccount = require('./firebase-key.json')
 initializeApp({ credential: cert(serviceAccount) })
 const auth = getAuth()
 
-auth.getUserByEmail('rafael.zendron@Piano-Louvor-JA.com.br')
+auth.getUserByEmail('admin@pianolouvorja.com.br')
   .then(user => auth.updateUser(user.uid, { password: 'NewPassword123!' }))
   .then(() => { console.log('Password updated'); process.exit(0) })
   .catch(err => { console.error(err.message); process.exit(1) })
@@ -132,7 +132,7 @@ FIREBASE_STORAGE_BUCKET=Piano-Louvor-JA.firebasestorage.app
 FIREBASE_MESSAGING_SENDER_ID=267038930810
 FIREBASE_APP_ID=1:267038930810:web:...
 FIREBASE_SERVICE_ACCOUNT={...JSON inline...}
-ADMIN_EMAILS=rafael.zendron@Piano-Louvor-JA.com.br,ezequiasfonseca@gmail.com
+ADMIN_EMAILS=admin@pianolouvorja.com.br,mantenedor@pianolouvorja.com.br
 ```
 
 **Diagnostic flow quando login falha:**

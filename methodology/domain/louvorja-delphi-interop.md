@@ -6,7 +6,7 @@
 ## Fonte de verdade
 O código Delphi é a referência SEMPRE que um formato der dúvida:
 - `github.com/louvorja/desktop` (Pascal) — `fmCopiaLiturgiaDia.pas`, `fmMenu.pas`, `dmComponentes.pas/.dfm`, `fmItensAgendados.pas`
-- Arquivos reais do Rafael: `/media/contribuidor/NovoVolume/nvme-mint/Downloads/liturgia.ja`, `itensAgendadosCategorias.xml`
+- Arquivos reais do o PO: `<path-local-do-contribuidor>/liturgia.ja`, `itensAgendadosCategorias.xml`
 
 ## liturgia.ja (INI, cp1252 ou UTF-8)
 - Seções `[item_<timestamp>]` com `tipo` (musica/anotacao/arquivo), `item`, `subitem`, `musica` (ID = id_music da API), `cor` ($BBGGRR Delphi), `checked`, `dir`.
@@ -33,7 +33,7 @@ Port Dart completo em 11/09/2026: `Piano-Louvor-JA-flutter/src/lib/core/services
 Formato detalhado, pitfalls do port e regras de tempo (tempo_hms = segundos,
 tempo = bytes BASS): ver `references/delphi-slja-format.md`.
 
-### .slja.zip (wrapper do WhatsApp) — regra do Rafael (11/09): aceitar AMBOS, não um ou outro
+### .slja.zip (wrapper do WhatsApp) — regra do projeto (11/09): aceitar AMBOS, não um ou outro
 WhatsApp/mensageiros anexam sufixo `.zip` na extensão: `musica.slja` vira
 `musica.slja.zip` — um ZIP EXTERNO contendo o .slja interno (zip dentro de
 zip). O import TEM que aceitar `.slja` puro E `.slja.zip`:
@@ -54,9 +54,9 @@ zip). O import TEM que aceitar `.slja` puro E `.slja.zip`:
 5. **Electron preload/main só carregam no boot** — erro `No handler registered` = processo velho; reiniciar. `npm run dev` só sobe Vite; usar `npm run electron:dev`. HMR não recarrega preload.
 6. **Inserir bloco no preload por âncora de texto** ("updater:") pode aninhar errado e SOBRESCREVER uma API existente (bug `media.check is not a function`) — validar estrutura com `node --check` e inspecionar o contexto da âncora antes.
 7. **APK debug ≠ assinatura release** (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`) — desinstalar antes de instalar debug (dados locais somem; usuário reimporta).
-8. Testes com arquivos REAIS da igreja antes de declarar pronto (preferência explícita do Rafael).
+8. Testes com arquivos REAIS da igreja antes de declarar pronto (preferência explícita do o PO).
 9. **fakeIo de filesystem em testes: ACHAR a árvore por path completo (achatada)** — misturar lookup aninhado (`tree[p]` com chave composta) com árvore declarativa aninhada dá ENOENT silencioso: o walk recursivo entra no dir pai, `readdir` do filho lança, e o `catch {}` do walk ENGOLE o erro retornando vazio (scan "funciona" com 0 resultados). Fix: achar a árvore em paths completos num Map (`register('/', {dirs: def, files: {}})` com join normalizado) e instrumentar com log temporário quando der 0 resultados — o bug raramente está no módulo testado, está no helper.
-10. **Redigir issues SEM crédito nominal** (regra Rafael 31/08): descrever como "caso real de usuário do Classo" / "igreja com 2+ usuários no Windows" — nunca nomear quem relatou.
+10. **Redigir issues SEM crédito nominal** (regra o PO 31/08): descrever como "caso real de usuário do Classo" / "igreja com 2+ usuários no Windows" — nunca nomear quem relatou.
 
 ## Espeçamento no ecossistema (specs no Obsidian)
 - `00-Projects/PIANO/Importar-Liturgia-JA-Delphi.md`

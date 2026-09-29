@@ -120,7 +120,7 @@ Ao alterar roteamento:
 
 NowPlaying aberto pelo hino e reaberto pelo mini player deve receber o mesmo contexto: detail completo com letra, capa, modo instrumental, source e duração. Não guardar só item resumido do catálogo; isso causa tela preta/sem letra ao reabrir.
 
-### Termos e Privacidade = conteúdo real, nunca TODO (regra do Rafael, 11/09)
+### Termos e Privacidade = conteúdo real, nunca TODO (regra do projeto, 11/09)
 
 Os ListTiles "Termos de Uso" e "Política de Privacidade" das Configurações ficavam mortos (comentário "Destino será ligado na Fase 6" — de OUTRO projeto). Regra: TODO visível na UI = bug. Implementar `TermsPage` estática embutida (offline-safe): Termos de Uso (uso do app, conteúdo da comunidade, conta, disponibilidade) + Política de Privacidade LGPD (dados coletados — e-mail/nome da conta custom, token no secure storage, retenção 30 dias, direitos do art. 18, menores de 16). Rotas nested go_router (`/settings/terms`, `/settings/privacy`); chave i18n `settings.privacyPolicy` nos 3 locales. Sem network: markdown/strings no próprio Dart.
 
@@ -160,7 +160,7 @@ Teste E2E em `test/e2e/custom_flow_e2e_test.dart` exercita a piano-api de dev no
 
 ### Noite de 11/09: playlists, offline-first, BG herdado, QA gate (commits 1626d31→f77bcc3, 876 testes)
 
-- **PLAYLIST ≠ COLETÂNEA** (correção do Rafael): playlist = seleção de hinos do acervo, local, sem API — port 1:1 do `playlist-storage.ts` do web pra Dart (`PlaylistStorage` em SharedPreferences, JSON camelCase compatível cross-plataforma — playlist do web abre no APK e vice-versa; anti toque-duplo de faixa consecutiva). Coletânea = conteúdo do usuário via API. Detalhes: skill `Piano-Louvor-JA-api` → `references/2026-09-11-playlists-bg-offline-first.md`.
+- **PLAYLIST ≠ COLETÂNEA** (correção do o PO): playlist = seleção de hinos do acervo, local, sem API — port 1:1 do `playlist-storage.ts` do web pra Dart (`PlaylistStorage` em SharedPreferences, JSON camelCase compatível cross-plataforma — playlist do web abre no APK e vice-versa; anti toque-duplo de faixa consecutiva). Coletânea = conteúdo do usuário via API. Detalhes: skill `Piano-Louvor-JA-api` → `references/2026-09-11-playlists-bg-offline-first.md`.
 - **Criar sem auth**: `LocalCustomStore` com ids negativos (não colidem com a API); FAB sempre visível; coletâneas locais no topo ("por Este dispositivo"); pitfall do store em memória (`_write` com clear+addAll do MESMO map apaga tudo — snapshot antes).
 - **BG herda do 1º slide** com exceção individual (`effectiveSlideBg` puro em custom_lyric_slide.dart + upload deduplicado: N slides com a mesma imagem = 1 upload); salvar → timing recorder direto (sincronizar letra↔áudio, paridade com o editor web); modo local toca path do device (DeviceFileSource).
 - **QA gate antes de PR** (processo novo acordado): skill `software-development/qa-agent` aprova antes do review do Ezequias. Subagents delegate estouram 600s em review grande — rodar gates por evidência local (grep/analyzer/test runner), subagent só pra fresh-eyes de arquivos específicos. Gap follow-up: `CustomMusicEditorPage` sem widget test.

@@ -26,7 +26,7 @@
    - suíte de testes dos módulos tocados E dos consumidores mapeados no P0
    - smoke do fluxo afetado ponta-a-ponta (UI: rota registrada + elemento no template + ação persiste estado — "componente renderiza" não conta)
    - build
-5. **Crítico cego** — perfil/modelo diferente do implementador; recebe SÓ spec/barra/diff/evidência; veredito binário PASSOU/FALHOU. Na stack do Rafael: implementer GLM → crítico perfil `gauntlet` (nemotron) ou `reviewer`.
+5. **Crítico cego** — perfil/modelo diferente do implementador; recebe SÓ spec/barra/diff/evidência; veredito binário PASSOU/FALHOU. Na stack do o PO: implementer GLM → crítico perfil `gauntlet` (nemotron) ou `reviewer`.
 6. **Loop Shumer (sem cap)** — itera até TODOS os Bn passarem com evidência; só escala se o critério exigir decisão que muda o desenho da barra.
 
 ## Critérios que viram barra (Bn) sempre que aplicáveis

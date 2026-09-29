@@ -22,7 +22,7 @@ Skill índice: NÃO duplica conteúdo das skills irmãs — carrega a certa na f
 
 ## Regras transversais (valem em TODAS as fases)
 
-### Do Rafael (inegociáveis)
+### Do o PO (inegociáveis)
 1. Obsidian = source of truth; planeja ANTES de implementar.
 2. Evidência = execução real com output; nunca "de olho".
 3. Commit+push ao fim de TODO ciclo, na branch certa (`git status -sb` antes).
@@ -33,7 +33,7 @@ Skill índice: NÃO duplica conteúdo das skills irmãs — carrega a certa na f
 8. Review do Ezequias antes de merge.
 9. TODO visível na UI = bug.
 10. Testes com vídeo: música SACRA IASD (Athus, Vox, Arautos), nunca mundana.
-11. NUNCA `git commit`/`push --no-verify` (Rafael 24/09: hooks husky rodam SEMPRE; se lint-staged reescrever arquivo → `git add` + re-commit; nunca contornar gate).
+11. NUNCA `git commit`/`push --no-verify` (o PO 24/09: hooks husky rodam SEMPRE; se lint-staged reescrever arquivo → `git add` + re-commit; nunca contornar gate).
 12. **Regression Guard (inegociável, 27/09)**: mudança em código existente sem matriz de impacto + teste de regressão + evidência executada NÃO está pronta. Carregar `software-development/regression-guard` na fase 4. Ledger de quebras: Obsidian `01-Inbox/Regression Guard - prevenção de quebras.md`.
 
 ### Anti-parada do Gauntlet (herdadas — valem até fora de loops)
@@ -54,12 +54,12 @@ Skill índice: NÃO duplica conteúdo das skills irmãs — carrega a certa na f
 6. Escopo é o deliverable: não estreitar/alargar/transformar o pedido silenciosamente.
 7. Se usuário reafirma após pushback: é decisão dele, executa full sem relitigar.
 8. Anti-clichê: cortar "basicamente", "na verdade" — honestidade é default.
-9. Memória: só fato [stated] pelo Rafael; escolha dele entra, recomendação minha não-adotada não entra.
+9. Memória: só fato [stated] pelo o PO; escolha dele entra, recomendação minha não-adotada não entra.
 
 ### Contexto por projeto (decisões já tomadas — não re-perguntar)
 - **Jev (System One, $0)**: gate barato de decisão binária. P1 `--preset command_guard` antes de comando com efeito colateral (noul ≥0.7 = não executa, escala); P2 `--preset task_triage` na fase 0 roteia a task; P4 `--preset severity` prioriza o ledger de quebras. Helper: `~/.hermes/scripts/jev_ask.py`. Free tier tem janelas de 422 transitório — 2 falhas seguidas = seguir sem o gate, não bloquear. Detalhes: Obsidian `01-Inbox/Jev - integração no fluxo.md`.
 - **PIANO (Piano-Louvor-JA)**: carregar skill de domínio do repo tocado (app/web/api/apk). Org: feat→staging→main. Prod API: ssh usuario@servidor (502 = Caddy restart transitório).
-- **AGENVA (minha-agenda)**: AGENTS.md do repo é lei. Firebase key pública; google-services.json versionado (fix PR apk#20). Device teste: A15 do Rafael via adb Wi-Fi.
+- **AGENVA (minha-agenda)**: AGENTS.md do repo é lei. Firebase key pública; google-services.json versionado (fix PR apk#20). Device teste: A15 do o PO via adb Wi-Fi.
 - **OSS externo**: seguir `github/oss-project-excellence` — checar PRs competidoras ANTES de despachar; checklist pré-push completo; conventions do repo mandam.
 
 ## Modo autônomo (como invocar)

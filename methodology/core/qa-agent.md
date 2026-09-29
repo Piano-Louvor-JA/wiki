@@ -16,7 +16,7 @@ O agente QA é o **Reviewer/Verifier** no fluxo SDD. Ele recebe SPEC.md + códig
 - **Fase VERIFY do SDD** — após IMPLEMENTAR, antes de RELEASE
 - **PR review** — quando alguém abre PR no seu repo
 - **Sprint review** — antes de marcar milestone como done
-- **Quando o Rafael diz "revisa isso"** — carrega esta skill
+- **Quando o o PO diz "revisa isso"** — carrega esta skill
 
 ## Modos de Execução
 
@@ -142,7 +142,7 @@ SPEC FEEDBACK → volta pra ESPECIFICAR
         └── É genuinely novo requisito? → Nova TASK na spec
         │
         ▼
-Spec atualizada → Re-aprovar com PO (Rafael)
+Spec atualizada → Re-aprovar com PO (o PO)
         │
         ▼
 SÓ ENTÃO voltar pra IMPLEMENTAR com a spec corrigida
@@ -233,7 +233,7 @@ mutmut run 2>&1 | tail -20
 ```
 
 **Threshold:**
-- Mutation score 100%: OK (padrão Rafael — só para na perfeição)
+- Mutation score 100%: OK (padrão do projeto — só para na perfeição)
 - < 100%: WARNING (mutante vivo = teste que não valida)
 
 **Se Stryker não estiver configurado**: pular este gate com WARNING e recomendar configuração.
@@ -265,7 +265,7 @@ npx lighthouse http://localhost:3000 --only-categories=seo,accessibility,perform
 cat /tmp/lh.json | jq '.categories | to_entries[] | {category: .key, score: .value.score}'
 ```
 
-**Thresholds (padrão Rafael):**
+**Thresholds (padrão do projeto):**
 - SEO >= 95 ✅ / < 95 ❌
 - A11y >= 95 ✅ / < 95 ❌
 - Perf >= 85 (mobile) ✅ / < 85 ❌
@@ -298,12 +298,12 @@ Se encontrar dados pessoais:
 |------------------|-------------------|---------|
 | Claude (Anthropic) | GPT-4/Gemini | Arquitetura e training data diferentes |
 | GPT-4 (OpenAI) | Claude/Kimi K2 | Diferente vendor = diferente bias |
-| GLM (Z.AI) | Claude/Nemotron | Stack da Rafael: implementer GLM → reviewer Nemotron |
+| GLM (Z.AI) | Claude/Nemotron | Stack da o PO: implementer GLM → reviewer Nemotron |
 | Kimi K2 (Groq) | GLM/Claude | Implementer Kimi → reviewer GLM/Claude |
 | Nemotron | GLM/Kimi | Implementer Nemotron → reviewer GLM |
 | Desconhecido | Sempre Claude ou GPT-4 | Default pra fresh eyes |
 
-**Na stack do Rafael (free tier):**
+**Na stack do o PO (free tier):**
 - Implementer = GLM-5.1 (Z.AI) → Reviewer = **Nemotron** ou **Kimi K2** (Groq)
 - Usar `delegate_task` com `model` override explícito
 
@@ -391,8 +391,8 @@ RULES:
 |----------|------|-------------|-------------|
 | **APPROVE** | Prosseguir para RELEASE | Automático | — |
 | **REQUEST_CHANGES** | Auto-fix loop (ver abaixo) | Fix subagent | — |
-| **BLOCK** | Escalar pro Rafael AGORA | Humano | Discord DM + issue |
-| **SPEC FEEDBACK** | Volta pra ESPECIFICAR | Rafael aprova spec | Discord DM |
+| **BLOCK** | Escalar pro PO AGORA | Humano | Discord DM + issue |
+| **SPEC FEEDBACK** | Volta pra ESPECIFICAR | o PO aprova spec | Discord DM |
 
 ## Auto-fix Loop (Ponto #1 — critério de parada explícito)
 
@@ -434,11 +434,11 @@ if qa_result.verdict != "APPROVE":
     )
 ```
 
-**Regra absoluta:** 3 ciclos sem APPROVE = **BLOCK automático**, mesmo se não for security. Escala pro Rafael com todos os contextos.
+**Regra absoluta:** 3 ciclos sem APPROVE = **BLOCK automático**, mesmo se não for security. Escala pro PO com todos os contextos.
 
 **Anti-spin:** Se QA reporta o MESMO issue 2 ciclos seguididos (fix não resolveu), pula direto pra BLOCK no ciclo 3.
 
-## Escalonamento pro Rafael (Ponto #8 — SLA)
+## Escalonamento pro PO (Ponto #8 — SLA)
 
 Quando BLOCK ou fix loop exausto:
 
@@ -456,10 +456,10 @@ Modo: [FULL/LITE/YOLO]
 Diff: [link pro PR ou commit]"
 
 # 2. Notificar via Discord (canal de trabalho)
-# Mensagem direta pro Rafael no Discord
+# Mensagem direta pro PO no Discord
 ```
 
-**SLA:** BLOCK não fica silencioso. Sempre cria issue + notifica no Discord. O Rafael decide: resolver manualmente, ajustar spec, ou dar override.
+**SLA:** BLOCK não fica silencioso. Sempre cria issue + notifica no Discord. O o PO decide: resolver manualmente, ajustar spec, ou dar override.
 
 ## Post-RELEASE Monitoring (Ponto #6 — fecha o ciclo)
 
@@ -557,7 +557,7 @@ Um único subagent FULL em diff de 30k+ linhas **estoura o timeout de 600s** do 
 9. **Reportar issues sem file:line.** "Tem um bug no auth" é inútil. "src/auth.ts:42 — null check missing" é útil.
 10. **Ser bonzinho.** QA não é seu amigo. QA é seu seguro. Se dúvida = REQUEST_CHANGES.
 11. **Fix sem spec feedback.** Se QA acha edge case novo, spec precisa ser atualizada PRIMEIRO (Ponto #2).
-12. **BLOCK silencioso.** Sempre cria issue + notifica Discord. Nunca deixar Rafael sem saber.
+12. **BLOCK silencioso.** Sempre cria issue + notifica Discord. Nunca deixar o PO sem saber.
 13. **Gate 7 pulado em YOLO.** Gate 7 NUNCA pula. Mesmo em rush mode, fresh eyes é obrigatório.
 14. **RF sem rastreabilidade.** RF-001 precisa estar no código, no teste, e no commit. Sem isso, evidência fica solta.
 15. **Comando de CI divergente do comando local.** Reproduzir localmente o comando EXATO do workflow (`npx biome ci src/ test/` vs `check src/`, `flutter analyze --fatal-warnings --no-fatal-infos` sobre o repo todo incluindo test/) antes de pushar — escopo ou flags diferentes fazem o local passar e a CI falhar (aconteceu 2x na mesma sessão).

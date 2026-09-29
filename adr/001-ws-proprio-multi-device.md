@@ -1,6 +1,6 @@
 # ADR-001: Comunicação multi-device via WebSocket próprio (não Chromecast)
 
-**Status:** Aceita · **Data:** 2026 · **Decisor:** Rafael
+**Status:** Aceita · **Data:** 2026 · **Decisor:** o PO
 
 ## Contexto
 

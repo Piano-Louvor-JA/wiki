@@ -15,7 +15,7 @@ Domain knowledge para criar modulos no app LouvorJA (Electron + Vue 3 + Vuetify)
 gh pr view <NUM> --repo elvieira/LouvorJA
 ```
 
-Tambem verificar: o repo pode ser `elvieira/LouvorJA` (fork do Elias) ou `Piano-Louvor-JA/elias-louvorja` (fork do Rafael). Confirmar qual antes de checkout.
+Tambem verificar: o repo pode ser `elvieira/LouvorJA` (fork do Elias) ou `Piano-Louvor-JA/elias-louvorja` (fork do o PO). Confirmar qual antes de checkout.
 
 ## Design System (ver `references/electron-design-tokens.md`) — NAO hardcoded cores, NAO Vuetify layout custom sidebar, SEMPRE dark mode + Electron antes de PR.
 
