@@ -1,17 +1,32 @@
 # Governance
 
-## Public documentation
+## Decision Authority
 
-This repository publishes reusable onboarding guidance. It is not the decision record for private project operations.
+| Domain | Decider | Process |
+|--------|---------|---------|
+| **Product/Spec** | PO | SPEC.md com RF-ID → APROVAÇÃO obrigatória antes de código |
+| **Architecture/Tech Stack** | Tech Lead (Ezequias) + PO | ADR proposto → discussão → decisão registrada |
+| **Infrastructure/Deploy/Secrets** | Infra Admin (Ezequias) | Não delegado; execução manual ou via CI/CD admin |
+| **UI/UX** | PO + Designer | Mock/Design review → spec → implementação |
+| **Release/Versioning** | PO + Release Manager | Semver por fase (v0.1→v1.0) + milestone no GitHub Projects |
+| **Quality Gates** | QA Agent (7 Gates) | Obrigatório; override só com evidência + PO |
 
-## Change authority
+## Branch Flow (obrigatório)
 
-Repository maintainers decide acceptance, review requirements and release readiness. Contributors should use pull requests and follow repository-local instructions.
 
-## Documentation boundaries
 
-Public pages may include stable concepts, contribution workflow and blank templates. Internal decisions, active plans, project management records, operational metrics, deployment details and sensitive data remain private.
+- PR SEMPRE base 
+-  só recebe via PR → (release)
+- Nenhuma exceção
 
-## Corrections
+## Decision Records
 
-If a public page may expose sensitive information, remove the content immediately and notify maintainers through a private channel.
+- ADRs em  (decisões arquiteturais)
+- Specs em  (rastreabilidade RF-ID)
+- Plans em  (fases shippable, tasks atômicas)
+
+## Conflict Resolution
+
+1. Discord direto entre PO + Tech Lead
+2. Se impasse: PO decide produto, Tech Lead decide infra
+3. Decisão registrada em ADR + comentário na issue/PR
