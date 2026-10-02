@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'pt-BR' }}" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {%- seo %}
+
+  <link rel="icon" href="{{ '/assets/logo.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/css/brand.css' | relative_url }}">
+
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = window.localStorage.getItem('piano-wiki-theme'); } catch (e) {}
+      document.documentElement.setAttribute(
+        'data-theme',
+        (stored === 'light' || stored === 'dark') ? stored : 'dark'
+      );
+    })();
+  </script>
+</head>
+
+<body class="home">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="{{ '/' | relative_url }}">
+        <img src="{{ '/assets/logo.svg' | relative_url }}" alt="" width="28" height="28">
+        <span class="brand-name">PIANO</span>
+        <span class="brand-sep" aria-hidden="true">/</span>
+        <span class="brand-sub">Developer Wiki</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main">
+        <a href="{{ '/GETTING_STARTED.html' | relative_url }}">Getting started</a>
+        <a href="{{ '/ARCHITECTURE.html' | relative_url }}">Architecture</a>
+        <a href="{{ '/CONTRIBUTING.html' | relative_url }}">Contributing</a>
+        <a href="{{ '/GOVERNANCE.html' | relative_url }}">Governance</a>
+        <a href="{{ '/FAQ.html' | relative_url }}">FAQ</a>
+        <a href="{{ '/AGENTS.html' | relative_url }}">Agents</a>
+      </nav>
+
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        type="button"
+        aria-label="Switch to light theme"
+        aria-pressed="false"
+        title="Light theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="content" class="wrap main">
+    {%- comment -%}
+      The hero is presentation chrome only. All page copy comes from index.md,
+      which stays the single source of truth (allowlisted content). Its opening
+      paragraph is promoted to .hero .lead by CSS (.home .main > p:first-of-type).
+    {%- endcomment -%}
+
+    <section class="hero">
+      <img class="hero-mark" src="{{ '/assets/logo.svg' | relative_url }}" alt="" width="64" height="64">
+      <p class="hero-kicker">Piano LouvorJA</p>
+      <h1>PIANO Developer Wiki</h1>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ '/GETTING_STARTED.html' | relative_url }}">Começar</a>
+        <a class="btn btn-secondary" href="https://github.com/Piano-Louvor-JA">GitHub</a>
+      </div>
+    </section>
+
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>PIANO / LouvorJA — Developer Wiki</span>
+      <span class="footer-links">
+        <a href="https://github.com/Piano-Louvor-JA/wiki">Repository</a>
+        <a href="https://pianolouvorja.com.br">pianolouvorja.com.br</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+
+      function label(theme) {
+        if (!btn) return;
+        var toLight = theme === 'dark';
+        btn.setAttribute('aria-label', toLight ? 'Switch to light theme' : 'Switch to dark theme');
+        btn.setAttribute('aria-pressed', String(!toLight));
+        btn.setAttribute('title', toLight ? 'Light theme' : 'Dark theme');
+      }
+
+      label(root.getAttribute('data-theme'));
+
+      if (btn) {
+        btn.addEventListener('click', function () {
+          var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          root.setAttribute('data-theme', next);
+          label(next);
+          try { window.localStorage.setItem('piano-wiki-theme', next); } catch (e) {}
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

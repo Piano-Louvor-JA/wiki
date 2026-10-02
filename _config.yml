@@ -1,0 +1,55 @@
+# PIANO Developer Wiki — GitHub Pages (legacy Jekyll build)
+#
+# Publication contract (frozen): branch `main`, path `/`, build type `legacy`.
+# GitHub Actions is NOT used for publishing. Do not add a deploy workflow.
+#
+# Content allowlist: exactly 9 markdown documents. This file, the assets
+# directory and the theme toggle are presentation only and carry no content.
+
+title: PIANO Developer Wiki
+description: >-
+  Onboarding público + docs de contribuidor para o ecossistema Piano-Louvor-JA
+
+# Brand defaults
+color_scheme: dark
+logo: /wiki/assets/logo.svg
+favicon: /wiki/assets/logo.svg
+
+# Brand stylesheet, layered on top of the theme.
+# `relative_url` keeps the /wiki/ base path intact.
+stylesheets:
+  - /wiki/assets/css/brand.css
+
+# Dark is the product default; the toggle persists an explicit choice.
+# (Enforcement happens client-side in assets/js/theme-toggle.js so the
+#  preference survives navigation without server state.)
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+plugins:
+  - jekyll-seo-tag
+
+# Build only what the public wiki needs.
+include:
+  - .nojekyll
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+  - .github
+
+# Keep the source tree flat: no Jekyll page for the raw assets.
+defaults:
+  - scope:
+      path: ''
+    values:
+      layout: default
