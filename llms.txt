@@ -39,6 +39,16 @@
 - [README](https://piano-louvor-ja.github.io/wiki/README.html): overview of this repository and the documents it publishes
 - [Source on GitHub](https://github.com/Piano-Louvor-JA/wiki): the repository these pages are built from
 
+## Other languages
+
+The wiki is published in the same languages the product ships: `en` (canonical, at the
+root), `es` and `pt-BR`. The app and web clients carry the same set in
+`src/locales/`. Translated documents live under `/es/` and `/pt/`; where a translation
+does not exist yet, the English page is served.
+
+- [Español](https://piano-louvor-ja.github.io/wiki/es/): arquitectura, contribución, gobernanza, preguntas frecuentes, primeros pasos
+- [Português](https://piano-louvor-ja.github.io/wiki/pt/): arquitetura, contribuição, governança, perguntas frequentes, primeiros passos
+
 ## Optional
 
 - [Production site](https://pianolouvorja.com.br): the public LouvorJA PIANO site

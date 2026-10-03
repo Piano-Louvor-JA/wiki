@@ -23,7 +23,8 @@ ROOT = File.expand_path('..', __dir__)
 STRICT = ARGV.include?('--strict')
 
 # prefix => language tag
-LANGUAGES = { 'pt' => 'pt-BR' }.freeze
+# Same set as the product: app and web ship src/locales/{en,es,pt-BR}.ts.
+LANGUAGES = { 'es' => 'es', 'pt' => 'pt-BR' }.freeze
 SOURCE_LANG = 'en'
 
 problems = []

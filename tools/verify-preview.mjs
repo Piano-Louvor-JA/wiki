@@ -22,12 +22,37 @@ const PAGES = [
   ['FAQ', '/FAQ.html'],
   ['AGENTS', '/AGENTS.html'],
   ['AGENT_SETUP', '/AGENT_SETUP.html'],
+  ['es-index', '/es/index.html'],
+  ['es-FAQ', '/es/FAQ.html'],
   ['pt-index', '/pt/index.html'],
   ['pt-FAQ', '/pt/FAQ.html'],
   ['pt-GOVERNANCE', '/pt/GOVERNANCE.html'],
   ['SPEC_TEMPLATE', '/SPEC_TEMPLATE.html'],
   ['PLAN_TEMPLATE', '/PLAN_TEMPLATE.html'],
 ];
+
+/* Native fetch with an explicit timeout and a retry.
+   Without this, a stalled connection throws undici's HeadersTimeoutError and
+   aborts the whole run — which happens on this host, which sits under memory
+   pressure often enough to drop connections. The local server answers in ~1ms,
+   so a retry is far cheaper than a false failure. */
+const httpGet = async (url, attempts = 3) => {
+  for (let i = 1; i <= attempts; i++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15_000);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal });
+      if (res.ok || res.status < 500) return res;   // a real 404 is an answer
+      if (i === attempts) return res;
+    } catch (err) {
+      if (i === attempts) return { ok: false, status: 0, error: String(err) };
+    } finally {
+      clearTimeout(timer);
+    }
+    process.stderr.write(`  retry ${i}/${attempts - 1}: ${url}\n`);
+    await new Promise(r => setTimeout(r, 400));
+  }
+};
 
 const fails = [];
 const ok = (cond, msg) => { if (!cond) fails.push(msg); };
@@ -38,8 +63,12 @@ const browser = await chromium.launch({
   channel: 'chrome',
   args: ['--disable-dev-shm-usage', '--no-sandbox', '--disable-gpu'],
 });
+/* One context, reused for the whole run. Opening 24 pages plus the contrast
+   sweep in fresh contexts is what exhausts memory on this host (swap is full),
+   which shows up as "Target crashed" rather than a real failure. */
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
+const freshPage = async () => ctx.newPage();
 
 /* domcontentloaded + document.fonts.ready, deliberately.
    'networkidle' and 'load' both time out on this machine even though the page
@@ -84,7 +113,8 @@ for (const [slug, path] of PAGES) {
   ok(theme === 'dark', `${slug}: tema inicial deveria ser dark, veio ${theme}`);
 
   /* The <html lang> must match the page's actual language. */
-  const expectedLang = slug.startsWith('pt-') ? 'pt-BR' : 'en';
+  const expectedLang = slug.startsWith('pt-') ? 'pt-BR'
+                     : slug.startsWith('es-') ? 'es' : 'en';
   const htmlLang = await page.getAttribute('html', 'lang');
   ok(htmlLang === expectedLang, `${slug}: html lang esperado ${expectedLang}, veio ${htmlLang}`);
 
@@ -118,7 +148,7 @@ for (const [slug, path] of PAGES) {
   const navHrefs = await page.evaluate(() =>
     [...document.querySelectorAll('.site-nav a')].map(a => a.getAttribute('href')));
   for (const href of navHrefs) {
-    const r = await fetch(BASE + href.replace('/wiki', ''));
+    const r = await httpGet(BASE + href.replace('/wiki', ''));
     ok(r.ok, `${slug}: link de nav quebrado ${href} (HTTP ${r.status})`);
   }
 }
@@ -127,7 +157,7 @@ for (const [slug, path] of PAGES) {
 await settleRetry(page, `${BASE}/index.html`);
 ok(await page.isVisible('.hero-mark'), 'index: hero-mark ausente');
 const heroTitle = (await page.textContent('.hero h1'))?.trim();
-ok(['Developer Wiki', 'Wiki do desenvolvedor'].includes(heroTitle),
+ok(['Developer Wiki', 'Wiki do desenvolvedor', 'Wiki para desarrolladores'].includes(heroTitle),
    `index: hero h1 inesperado (${heroTitle})`);
 
 /* Language switcher */
@@ -136,12 +166,18 @@ const langOpts = await page.evaluate(() =>
     text: a.textContent.trim(), href: a.getAttribute('href'),
     active: a.classList.contains('is-active'),
   })));
-ok(langOpts.length === 2, `index: seletor de idioma deveria ter 2 opcoes, veio ${langOpts.length}`);
+ok(langOpts.length === 3, `index: seletor de idioma deveria ter 3 opcoes, veio ${langOpts.length}`);
 ok(langOpts.some(o => o.active), 'index: nenhuma opcao de idioma marcada como ativa');
 for (const o of langOpts) {
+  /* Navigated in the browser rather than fetched: Node's native fetch is
+     unreliable on this host (full swap), while the browser connection is not.
+     '/' and '/es/' are directories served as index.html, exactly like Pages. */
   const target = o.href.replace('/wiki', '');
-  const r = await fetch(BASE + (target === '/' ? '/index.html' : target));
-  ok(r.ok, `index: link de idioma quebrado ${o.href} (HTTP ${r.status})`);
+  const probe = await freshPage();
+  const resp = await probe.goto(BASE + target, { waitUntil: 'commit', timeout: 20_000 })
+    .catch(() => null);
+  ok(resp && resp.ok(), `index: link de idioma quebrado ${o.href} (HTTP ${resp ? resp.status() : 0})`);
+  await probe.close();
 }
 const btnBg = await page.evaluate(() =>
   getComputedStyle(document.querySelector('.btn-primary')).backgroundColor);
@@ -184,7 +220,7 @@ ok(stored === 'dark', `localStorage deveria gravar 'dark', veio ${stored}`);
 await page.evaluate(() => { document.activeElement?.blur(); window.scrollTo(0, 0); });
 const focusOrder = [];
 let toggleFocused = false;
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 25; i++) {
   await page.keyboard.press('Tab');
   const info = await page.evaluate(() => ({
     id: document.activeElement?.id || '',
@@ -229,7 +265,9 @@ for (const [slug, path] of PAGES) {
   /* Native fetch, not page.request: the Playwright API context shares the
      browser's connection pool and times out once the run has driven the page
      many times, even though the server answers in ~60ms. */
-  const html = await (await fetch(BASE + path)).text();
+  const res = await httpGet(BASE + path);
+  const html = typeof res.text === 'function' ? await res.text() : '';
+  ok(html.length > 200, `${slug}: resposta vazia (HTTP ${res.status ?? 0})`);
   const body = html.replace(/<script[\s\S]*?<\/script>/g, '')
                    .replace(/<style[\s\S]*?<\/style>/g, '')
                    .replace(/<[^>]+>/g, ' ')
@@ -252,12 +290,15 @@ const CONTRAST_TARGET = 4.5;
 
 for (const [label, path] of [['home', '/index.html'], ['content', '/CONTRIBUTING.html']]) {
   for (const theme of ['dark', 'light']) {
-    await page.addInitScript(t => {
+    /* A page per theme: addInitScript accumulates on a reused page, and the
+       stored preference would leak into the next assertion. */
+    const cpage = await freshPage();
+    await cpage.addInitScript(t => {
       try { localStorage.setItem('piano-wiki-theme', t); } catch (e) {}
     }, theme);
-    await settleRetry(page, BASE + path);
+    await settleRetry(cpage, BASE + path);
 
-    const problems = await page.evaluate(({ target }) => {
+    const problems = await cpage.evaluate(({ target }) => {
       const parse = s => (s.match(/\d+/g) || []).slice(0, 3).map(Number);
       const lum = ([r, g, b]) => {
         const f = v => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; };
@@ -312,6 +353,7 @@ const bgOf = el => {
       return out;
     }, { target: CONTRAST_TARGET });
 
+    await cpage.close();
     for (const p of problems) {
       fails.push(`contraste ${label}/${theme}: "${p.text}" ${p.color} contraste ${p.ratio} < ${CONTRAST_TARGET} (${p.sel})`);
     }

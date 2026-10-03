@@ -21,8 +21,12 @@ ORIGIN = 'https://piano-louvor-ja.github.io'
 
 # Language prefix => locale. English lives at the root (the canonical URL);
 # every other language lives under /<prefix>/.
+# Mirrors the ecosystem's own language set — app and web both ship
+# src/locales/{en,es,pt-BR}.ts, and the api mirrors the ES/EN hymnal. The wiki
+# must not offer a language the product does not support.
 LANGUAGES = {
   ''    => { lang: 'en',    locale: 'en_US', label: 'English' },
+  'es/' => { lang: 'es',    locale: 'es_ES', label: 'Español' },
   'pt/' => { lang: 'pt-BR', locale: 'pt_BR', label: 'Português' }
 }.freeze
 
