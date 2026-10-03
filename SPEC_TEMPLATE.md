@@ -1,36 +1,36 @@
-# Specification: <short name>
+# Specification: &#60;short name&#62;
 
 Status: draft
-Owner: <role or team>
+Owner: &#60;role or team&#62;
 
 ## Problem
 
-<What user or system problem is being solved?>
+&#60;What user or system problem is being solved?&#62;
 
 ## Outcome
 
-<Observable result and acceptance criteria.>
+&#60;Observable result and acceptance criteria.&#62;
 
 ## Scope
 
 ### Included
 
-- <item>
+- &#60;item&#62;
 
 ### Excluded
 
-- <item>
+- &#60;item&#62;
 
 ## Constraints
 
-- <compatibility, security, accessibility or performance constraints>
+- &#60;compatibility, security, accessibility or performance constraints&#62;
 
 ## Validation
 
-- <test or observable verification>
+- &#60;test or observable verification&#62;
 
 ## Risks
 
-- <risk and mitigation>
+- &#60;risk and mitigation&#62;
 
 Do not place credentials, private infrastructure details, customer data or internal planning records in public specifications.
