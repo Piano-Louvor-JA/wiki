@@ -25,7 +25,7 @@ for (const [label, path] of SHOTS) {
     await page.addInitScript(t => {
       try { localStorage.setItem('piano-wiki-theme', t); } catch (e) {}
     }, theme);
-    await page.goto(BASE + path, { waitUntil: 'networkidle' });
+    await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 30_000 });
     await page.waitForTimeout(500);
     /* fullPage so lower sections (Templates, footer) are captured too — a
        viewport-only shot cuts them off and hides contrast problems. */

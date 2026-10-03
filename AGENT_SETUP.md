@@ -42,10 +42,15 @@ request and update the consumers in the same change.
 
 ## Non-negotiable rules
 
-- **Pull requests go through `staging`.** Never open a pull request against the
-  default branch directly; the default branch is only reached via a release.
-- **Conventional Commits** (`feat:`, `fix:`, `chore:`). Pull request titles
-  follow the same style.
+These apply to contributions to this organization. A repository's own
+`AGENTS.md` or contribution guide takes precedence over this page.
+
+- **Check the repository's contribution guide before opening a pull request.**
+  Branch targets differ by repository, and this page does not describe them
+  authoritatively. Opening a pull request against the wrong branch is the most
+  common way a contribution gets stalled.
+- **Conventional Commits** (`feat:`, `fix:`, `chore:`) where the repository
+  follows them. Match the repository, not this page.
 - **Gates run before you push**: lint, typecheck, tests and build, as documented
   in the repository. A red build on the remote is a broken branch.
 - **Offline-first is a product invariant** on the desktop, mobile and web
@@ -54,8 +59,9 @@ request and update the consumers in the same change.
   assert) in the same commit.
 - **API middleware is log-only**: telemetry and rate limiting never block real
   traffic unless the user agent is unambiguously a bot.
-- **Commits are GPG-signed.** Hooks are healthy — run them normally, and use
-  `--no-verify` only after the hook itself fails, saying so when you do.
+- **If the repository requires signed commits**, they are signed. Hooks are part
+  of the setup — run them normally, and use `--no-verify` only after the hook
+  itself fails, saying so when you do.
 
 ## Traps that are expensive to discover on your own
 
@@ -78,11 +84,12 @@ These are conventions of the ecosystem, not deployment specifics.
 
 ## Review
 
-Every pull request goes through automated review before human review, and a
-human approves on top. Automated approval never merges on its own.
+Contributions are reviewed before they land, and a human approves on top.
+Automated review never merges on its own.
 
-If the automated reviewer requests changes, read the checklist it points to,
-split the work if it asks for smaller pieces, and push again.
+When a reviewer asks for changes, read what they asked for, split the work if it
+is too large to review clearly, and push again. Reviewers are the authority on
+what a change needs — not this page.
 
 ## Elsewhere
 

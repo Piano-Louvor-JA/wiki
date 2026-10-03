@@ -38,6 +38,32 @@ const browser = await chromium.launch({
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
 
+/* domcontentloaded + document.fonts.ready, deliberately.
+   'networkidle' and 'load' both time out on this machine even though the page
+   serves in ~60ms (Chrome stays busy after load). domcontentloaded plus an
+   explicit font wait is both faster and deterministic for the Inter check. */
+const settle = async (p, url) => {
+  const res = await p.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+  await p.evaluate(() => document.fonts.ready);
+  return res;
+};
+
+/* This host is regularly under memory pressure (swap full, several long-lived
+   processes), which makes Chrome drop navigations non-deterministically. The
+   server answers in ~60ms, so retrying is cheap and separates a real regression
+   from host noise. Still fails loudly if it never succeeds. */
+const settleRetry = async (p, url, attempts = 3) => {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await settle(p, url);
+    } catch (err) {
+      if (i === attempts) throw err;
+      process.stderr.write(`  retry ${i}/${attempts - 1}: ${url}\n`);
+      await p.waitForTimeout(750);
+    }
+  }
+};
+
 /* Fail loudly on any console error or failed request (missing font/asset). */
 const consoleErrors = [];
 const failedReqs = [];
@@ -47,7 +73,7 @@ page.on('response', r => { if (r.status() >= 400) failedReqs.push(`${r.url()} �
 
 /* ---- per-page checks ---- */
 for (const [slug, path] of PAGES) {
-  const res = await page.goto(BASE + path, { waitUntil: 'networkidle' });
+  const res = await settleRetry(page, BASE + path);
   ok(res.ok(), `${slug}: navegação falhou (HTTP ${res?.status()})`);
 
   /* dark is the default with no stored preference */
@@ -84,13 +110,13 @@ for (const [slug, path] of PAGES) {
   const navHrefs = await page.evaluate(() =>
     [...document.querySelectorAll('.site-nav a')].map(a => a.getAttribute('href')));
   for (const href of navHrefs) {
-    const r = await page.request.get(BASE + href.replace('/wiki', ''));
-    ok(r.ok(), `${slug}: link de nav quebrado ${href} (HTTP ${r.status()})`);
+    const r = await fetch(BASE + href.replace('/wiki', ''));
+    ok(r.ok, `${slug}: link de nav quebrado ${href} (HTTP ${r.status})`);
   }
 }
 
 /* ---- home specifics ---- */
-await page.goto(`${BASE}/index.html`, { waitUntil: 'networkidle' });
+await settleRetry(page, `${BASE}/index.html`);
 ok(await page.isVisible('.hero-mark'), 'index: hero-mark ausente');
 const heroTitle = await page.textContent('.hero h1');
 ok(heroTitle?.trim() === 'PIANO Developer Wiki', `index: hero h1 errado (${heroTitle})`);
@@ -113,7 +139,7 @@ const sunVisible = await page.isVisible('.theme-toggle .icon-sun');
 ok(sunVisible, 'toggle: ícone de sol não apareceu no light');
 
 /* persisted choice must survive navigation */
-await page.goto(`${BASE}/FAQ.html`, { waitUntil: 'networkidle' });
+await settleRetry(page, `${BASE}/FAQ.html`);
 t = await page.getAttribute('html', 'data-theme');
 ok(t === 'light', `persistência: light deveria sobreviver à navegação, veio ${t}`);
 
@@ -168,7 +194,7 @@ ok(parseFloat(ring.outline) >= 2 && ring.style !== 'none',
 
 /* ---- responsive ---- */
 await page.setViewportSize({ width: 375, height: 720 });
-await page.goto(`${BASE}/index.html`, { waitUntil: 'networkidle' });
+await settleRetry(page, `${BASE}/index.html`);
 const overflowX = await page.evaluate(() =>
   document.documentElement.scrollWidth - document.documentElement.clientWidth);
 ok(overflowX <= 1, `mobile 375px: overflow horizontal de ${overflowX}px`);
@@ -177,7 +203,10 @@ ok(await page.isVisible('#theme-toggle'), 'mobile: toggle sumiu da viewport');
 /* ---- content parity: each page must keep ITS OWN text ---- */
 const sentinels = JSON.parse(process.env.SENTINELS_BY_SLUG);
 for (const [slug, path] of PAGES) {
-  const html = await (await page.request.get(BASE + path)).text();
+  /* Native fetch, not page.request: the Playwright API context shares the
+     browser's connection pool and times out once the run has driven the page
+     many times, even though the server answers in ~60ms. */
+  const html = await (await fetch(BASE + path)).text();
   const body = html.replace(/<script[\s\S]*?<\/script>/g, '')
                    .replace(/<style[\s\S]*?<\/style>/g, '')
                    .replace(/<[^>]+>/g, ' ')
@@ -197,7 +226,7 @@ for (const [label, path] of [['home', '/index.html'], ['content', '/CONTRIBUTING
     await page.addInitScript(t => {
       try { localStorage.setItem('piano-wiki-theme', t); } catch (e) {}
     }, theme);
-    await page.goto(BASE + path, { waitUntil: 'networkidle' });
+    await settleRetry(page, BASE + path);
 
     const problems = await page.evaluate(({ target }) => {
       const parse = s => (s.match(/\d+/g) || []).slice(0, 3).map(Number);

@@ -59,7 +59,13 @@ ALLOWLIST_RULES = {
   'runbook interno' =>
     /04-Projects\//,
   'stack com versão interna' =>
-    /Node\s*(?:24|22)\b|nvm\b/i
+    /Node\s*(?:24|22)\b|nvm\b/i,
+  # A rule that names a concrete branch or a workflow a reader cannot reach is
+  # worse than no rule: an external contributor cannot comply with it.
+  'regra não acionável' =>
+    /PRs?\s+to\s+`?staging|from\s+`?staging|branch\s+from\s+`?staging|pull requests? go through\s+`?staging/i,
+  'promessa de automação interna' =>
+    /checklist it points to|\b(ia-approved|ia-changes-requested|ia-reviewed)\b/i
 }.freeze
 
 DOCS.each do |doc|
