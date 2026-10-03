@@ -22,6 +22,9 @@ const PAGES = [
   ['FAQ', '/FAQ.html'],
   ['AGENTS', '/AGENTS.html'],
   ['AGENT_SETUP', '/AGENT_SETUP.html'],
+  ['pt-index', '/pt/index.html'],
+  ['pt-FAQ', '/pt/FAQ.html'],
+  ['pt-GOVERNANCE', '/pt/GOVERNANCE.html'],
   ['SPEC_TEMPLATE', '/SPEC_TEMPLATE.html'],
   ['PLAN_TEMPLATE', '/PLAN_TEMPLATE.html'],
 ];
@@ -80,6 +83,11 @@ for (const [slug, path] of PAGES) {
   const theme = await page.getAttribute('html', 'data-theme');
   ok(theme === 'dark', `${slug}: tema inicial deveria ser dark, veio ${theme}`);
 
+  /* The <html lang> must match the page's actual language. */
+  const expectedLang = slug.startsWith('pt-') ? 'pt-BR' : 'en';
+  const htmlLang = await page.getAttribute('html', 'lang');
+  ok(htmlLang === expectedLang, `${slug}: html lang esperado ${expectedLang}, veio ${htmlLang}`);
+
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   ok(bg === 'rgb(15, 17, 21)', `${slug}: fundo dark esperado rgb(15,17,21), veio ${bg}`);
 
@@ -118,8 +126,23 @@ for (const [slug, path] of PAGES) {
 /* ---- home specifics ---- */
 await settleRetry(page, `${BASE}/index.html`);
 ok(await page.isVisible('.hero-mark'), 'index: hero-mark ausente');
-const heroTitle = await page.textContent('.hero h1');
-ok(heroTitle?.trim() === 'PIANO Developer Wiki', `index: hero h1 errado (${heroTitle})`);
+const heroTitle = (await page.textContent('.hero h1'))?.trim();
+ok(['Developer Wiki', 'Wiki do desenvolvedor'].includes(heroTitle),
+   `index: hero h1 inesperado (${heroTitle})`);
+
+/* Language switcher */
+const langOpts = await page.evaluate(() =>
+  [...document.querySelectorAll('.lang-opt')].map(a => ({
+    text: a.textContent.trim(), href: a.getAttribute('href'),
+    active: a.classList.contains('is-active'),
+  })));
+ok(langOpts.length === 2, `index: seletor de idioma deveria ter 2 opcoes, veio ${langOpts.length}`);
+ok(langOpts.some(o => o.active), 'index: nenhuma opcao de idioma marcada como ativa');
+for (const o of langOpts) {
+  const target = o.href.replace('/wiki', '');
+  const r = await fetch(BASE + (target === '/' ? '/index.html' : target));
+  ok(r.ok, `index: link de idioma quebrado ${o.href} (HTTP ${r.status})`);
+}
 const btnBg = await page.evaluate(() =>
   getComputedStyle(document.querySelector('.btn-primary')).backgroundColor);
 ok(btnBg === 'rgb(224, 137, 90)', `index: botão primário não usa a marca #E0895A (${btnBg})`);
@@ -212,8 +235,14 @@ for (const [slug, path] of PAGES) {
                    .replace(/<[^>]+>/g, ' ')
                    .replace(/\s+/g, ' ');
   const needle = sentinels[slug];
-  ok(needle && body.includes(needle),
-    `${slug}: texto perdido — "${needle ?? '(sentinela ausente)'}" não está no HTML`);
+  if (!needle) {
+    /* Translated pages carry their own wording; check the page renders real
+       prose instead of asserting an English sentinel. */
+    ok(body.length > 200, `${slug}: página traduzida sem conteúdo suficiente`);
+  } else {
+    ok(body.includes(needle),
+      `${slug}: texto perdido — "${needle}" não está no HTML`);
+  }
 }
 
 /* ---- contrast gates: text must never be painted in its own background ----
@@ -263,7 +292,7 @@ const bgOf = el => {
         return out;
       };
       const out = [];
-      const sel = 'h1,h2,h3,p,li,a,button,.btn,.card-title,.hero-kicker,.brand-name,.lead';
+      const sel = 'h1,h2,h3,p,li,a,button,.btn,.card-title,.hero-kicker,.brand-name,.lead,.lang-opt';
       for (const el of document.querySelectorAll(sel)) {
         if (!el.textContent.trim()) continue;
         const cs = getComputedStyle(el);

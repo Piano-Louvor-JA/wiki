@@ -3,17 +3,36 @@
 # Publication contract (frozen): branch `main`, path `/`, build type `legacy`.
 # GitHub Actions is NOT used for publishing. Do not add a deploy workflow.
 #
-# Content allowlist: exactly 9 markdown documents. This file, the assets
-# directory and the theme toggle are presentation only and carry no content.
+# Content allowlist: exactly 11 markdown documents (see tools/content_sentinels.rb).
+# This file, the assets directory and the theme toggle are presentation only and
+# carry no content.
 
 title: PIANO Developer Wiki
 description: >-
   Onboarding público + docs de contribuidor para o ecossistema Piano-Louvor-JA
 
+# Canonical origin. jekyll-seo-tag and jekyll-sitemap both need it to emit
+# absolute URLs; without it every canonical and hreflang tag comes out relative
+# and search engines treat each page as a duplicate of every other.
+url: https://piano-louvor-ja.github.io
+baseurl: /wiki
+
+# Locale — drives hreflang in jekyll-seo-tag and the og:locale tags.
+lang: en
+locale: en_US
+
 # Brand defaults
 color_scheme: dark
 logo: /wiki/assets/logo.svg
 favicon: /wiki/assets/logo.svg
+
+# Social card. jekyll-seo-tag emits og:image from this; without it link previews
+# render with no image at all.
+og:
+  type: website
+  image: /wiki/assets/og-cover.png
+  image_width: 1200
+  image_height: 630
 
 # Brand stylesheet, layered on top of the theme.
 # `relative_url` keeps the /wiki/ base path intact.
@@ -21,8 +40,8 @@ stylesheets:
   - /wiki/assets/css/brand.css
 
 # Dark is the product default; the toggle persists an explicit choice.
-# (Enforcement happens client-side in assets/js/theme-toggle.js so the
-#  preference survives navigation without server state.)
+# (Enforcement happens client-side in the layout so the preference survives
+#  navigation without server state.)
 
 markdown: kramdown
 highlighter: rouge
@@ -34,7 +53,10 @@ kramdown:
       line_numbers: false
 
 plugins:
-  - jekyll-seo-tag
+  # Both are on the GitHub Pages allowlist (verified against the github-pages
+  # gem's plugins.rb) — nothing outside that list can run on this build.
+  - jekyll-seo-tag     # <title>, meta description, canonical, OpenGraph, JSON-LD
+  - jekyll-sitemap     # sitemap.xml, referenced by robots.txt
 
 # Build only what the public wiki needs.
 # README.md is deliberately NOT excluded: it renders as the repository landing

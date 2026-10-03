@@ -1,0 +1,45 @@
+# PIANO LouvorJA — Developer Wiki
+
+> Public onboarding documentation for the LouvorJA PIANO ecosystem: an app family
+> for worship and presentation at the piano. One API (Hono + SQLite) serves three
+> clients — desktop Electron, mobile Flutter and web PWA — plus a landing site.
+>
+> Everything published here is safe, reusable guidance. Internal decisions, active
+> plans, ADRs, board automation, infrastructure addresses, deployment
+> configuration and credentials are **not** published and live in private
+> documentation, which is the source of truth for internal decisions.
+>
+> Conventions for contributors and coding agents: Conventional Commits, a focused
+> pull request, and repository-level gates that must pass before review. Each
+> repository's own `AGENTS.md` and contribution guide override anything here.
+
+## Start here
+
+- [Getting started](https://piano-louvor-ja.github.io/wiki/GETTING_STARTED.html): contribution flow and what to read before sharing material
+- [Architecture](https://piano-louvor-ja.github.io/wiki/ARCHITECTURE.html): product ecosystem and design principles
+- [Contributing](https://piano-louvor-ja.github.io/wiki/CONTRIBUTING.html): expected change shape and pull request checklist
+
+## Working on the code
+
+- [Agent setup](https://piano-louvor-ja.github.io/wiki/AGENT_SETUP.html): repository map, non-negotiable rules, and the traps that are expensive to discover on your own
+- [Agent guide](https://piano-louvor-ja.github.io/wiki/AGENTS.html): the rules for agents working with this repository
+
+## Governance and boundaries
+
+- [Governance](https://piano-louvor-ja.github.io/wiki/GOVERNANCE.html): what public documentation may contain, and who decides
+- [FAQ](https://piano-louvor-ja.github.io/wiki/FAQ.html): what is public, what is not, how to propose a change
+
+## Templates
+
+- [Specification template](https://piano-louvor-ja.github.io/wiki/SPEC_TEMPLATE.html): blank structure for a specification — problem, outcome, scope, constraints, validation, risks
+- [Plan template](https://piano-louvor-ja.github.io/wiki/PLAN_TEMPLATE.html): blank structure for an implementation plan — goal, steps, validation, rollback
+
+## Repository
+
+- [README](https://piano-louvor-ja.github.io/wiki/README.html): overview of this repository and the documents it publishes
+- [Source on GitHub](https://github.com/Piano-Louvor-JA/wiki): the repository these pages are built from
+
+## Optional
+
+- [Production site](https://pianolouvorja.com.br): the public LouvorJA PIANO site
+- [Organization on GitHub](https://github.com/Piano-Louvor-JA): all repositories in the ecosystem

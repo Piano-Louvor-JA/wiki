@@ -68,7 +68,15 @@ ALLOWLIST_RULES = {
     /checklist it points to|\b(ia-approved|ia-changes-requested|ia-reviewed)\b/i
 }.freeze
 
-DOCS.each do |doc|
+# Translations are published pages too — a leak in pt/ ships exactly like a leak
+# in the root. Scanned with the same rules.
+translated = Dir[File.join(SRC, '*', '*.md')].map do |f|
+  f.sub("#{SRC}/", '')
+end
+
+DOCUMENTS = DOCS + translated
+
+DOCUMENTS.each do |doc|
   path = File.join(SRC, doc)
   unless File.exist?(path)
     violations << "#{doc}: não encontrado"
@@ -82,9 +90,9 @@ DOCS.each do |doc|
 end
 
 # The allowlist itself must not drift: this script and the page list must agree.
-expected = Dir[File.join(SRC, '*.md')].map { |f| File.basename(f) }.sort
-if expected != DOCS.sort
-  violations << "allowlist divergiu do diretório:\n  disco:    #{expected.inspect}\n  esperado: #{DOCS.sort.inspect}"
+root_docs = Dir[File.join(SRC, '*.md')].map { |f| File.basename(f) }.sort
+if root_docs != DOCS.sort
+  violations << "allowlist da raiz divergiu:\n  disco:    #{root_docs.inspect}\n  esperado: #{DOCS.sort.inspect}"
 end
 
 if violations.any?
@@ -94,4 +102,4 @@ if violations.any?
   exit 1
 end
 
-puts "OK — #{DOCS.size} documentos, nenhuma violação de sanitização."
+puts "OK — #{DOCUMENTS.size} documentos (#{translated.size} traduzidos), nenhuma violação."

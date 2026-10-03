@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: 'pt-BR' }}" data-theme="dark">
+<html lang="{{ page.lang | default: site.lang }}" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,6 +43,21 @@
       </a>
 
       <nav class="site-nav" aria-label="Main">
+        {%- comment -%}
+          Nav labels follow the page language, but the link target stays the
+          English page: a translated document may not exist yet, and the switcher
+          is how a reader moves between them. Broken nav links would be worse
+          than a nav in the other language.
+        {%- endcomment -%}
+        {%- if page.lang == 'pt-BR' -%}
+        <a href="{{ '/GETTING_STARTED.html' | relative_url }}">Primeiros passos</a>
+        <a href="{{ '/ARCHITECTURE.html' | relative_url }}">Arquitetura</a>
+        <a href="{{ '/CONTRIBUTING.html' | relative_url }}">Contribuindo</a>
+        <a href="{{ '/GOVERNANCE.html' | relative_url }}">Governança</a>
+        <a href="{{ '/FAQ.html' | relative_url }}">Perguntas frequentes</a>
+        <a href="{{ '/AGENTS.html' | relative_url }}">Agentes</a>
+        <a href="{{ '/AGENT_SETUP.html' | relative_url }}">Setup para agentes</a>
+        {%- else -%}
         <a href="{{ '/GETTING_STARTED.html' | relative_url }}">Getting started</a>
         <a href="{{ '/ARCHITECTURE.html' | relative_url }}">Architecture</a>
         <a href="{{ '/CONTRIBUTING.html' | relative_url }}">Contributing</a>
@@ -50,7 +65,17 @@
         <a href="{{ '/FAQ.html' | relative_url }}">FAQ</a>
         <a href="{{ '/AGENTS.html' | relative_url }}">Agents</a>
         <a href="{{ '/AGENT_SETUP.html' | relative_url }}">Agent setup</a>
+        {%- endif -%}
       </nav>
+
+      <div class="lang-switch" role="group" aria-label="Language / Idioma">
+        <a class="lang-opt{% if page.lang == 'en' %} is-active{% endif %}"
+           href="{{ '/' | relative_url }}" lang="en" hreflang="en"
+           title="Read in English">EN</a>
+        <a class="lang-opt{% if page.lang == 'pt-BR' %} is-active{% endif %}"
+           href="{{ '/pt/' | relative_url }}" lang="pt-BR" hreflang="pt-BR"
+           title="Ler em português">PT</a>
+      </div>
 
       <button
         id="theme-toggle"
