@@ -20,6 +20,7 @@ BASE = '/wiki' # mirrors the GitHub Pages project-path prefix
 
 PAGES = {
   'index'            => { layout: 'home',    title: 'PIANO Developer Wiki' },
+  'README'           => { layout: 'default', title: 'Piano LouvorJA — Wiki' },
   'GETTING_STARTED'  => { layout: 'default', title: 'Getting started' },
   'ARCHITECTURE'     => { layout: 'default', title: 'Architecture' },
   'CONTRIBUTING'     => { layout: 'default', title: 'Contributing' },

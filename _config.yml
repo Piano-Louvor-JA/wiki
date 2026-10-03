@@ -37,10 +37,11 @@ plugins:
   - jekyll-seo-tag
 
 # Build only what the public wiki needs.
+# README.md is deliberately NOT excluded: it renders as the repository landing
+# page on GitHub and as /wiki/README.html on Pages.
 include:
   - .nojekyll
 exclude:
-  - README.md
   - Gemfile
   - Gemfile.lock
   - vendor

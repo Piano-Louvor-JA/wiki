@@ -14,6 +14,7 @@ import { chromium } from '/home/rafaelejosi/.hermes/hermes-agent/node_modules/pl
 const BASE = 'http://127.0.0.1:8900/wiki';
 const PAGES = [
   ['index', '/index.html'],
+  ['README', '/README.html'],
   ['GETTING_STARTED', '/GETTING_STARTED.html'],
   ['ARCHITECTURE', '/ARCHITECTURE.html'],
   ['CONTRIBUTING', '/CONTRIBUTING.html'],
