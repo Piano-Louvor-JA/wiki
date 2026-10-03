@@ -21,6 +21,7 @@ PICK = {
   'GOVERNANCE'      => 'Public pages may include stable concepts, contribution workflow and blank templates.',
   'FAQ'              => 'Credentials, tokens, private paths, infrastructure addresses',
   'AGENTS'          => 'When unsure whether information is public, omit it and request review.',
+  'AGENT_SETUP'     => 'Pull requests go through',
   'SPEC_TEMPLATE'   => 'Observable result and acceptance criteria.',
   'PLAN_TEMPLATE'   => 'safe reversal if applicable',
   'README'          => 'working on PIANO / LouvorJA.',
@@ -39,8 +40,9 @@ end
 # README.md renders as the repository landing page on GitHub and as
 # /wiki/README.html on Pages — repo presentation, sanitized like the rest.
 EXPECTED = %w[
-  AGENTS.md ARCHITECTURE.md CONTRIBUTING.md FAQ.md GETTING_STARTED.md
-  GOVERNANCE.md PLAN_TEMPLATE.md README.md SPEC_TEMPLATE.md index.md
+  AGENTS.md AGENT_SETUP.md ARCHITECTURE.md CONTRIBUTING.md FAQ.md
+  GETTING_STARTED.md GOVERNANCE.md PLAN_TEMPLATE.md README.md
+  SPEC_TEMPLATE.md index.md
 ].freeze
 
 actual = Dir[File.join(SRC, '*.md')].map { |f| File.basename(f) }.sort

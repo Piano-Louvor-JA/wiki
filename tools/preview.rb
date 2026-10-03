@@ -27,6 +27,7 @@ PAGES = {
   'GOVERNANCE'       => { layout: 'default', title: 'Governance' },
   'FAQ'              => { layout: 'default', title: 'FAQ' },
   'AGENTS'           => { layout: 'default', title: 'Public agent guide' },
+  'AGENT_SETUP'      => { layout: 'default', title: 'Setup for coding agents' },
   'SPEC_TEMPLATE'    => { layout: 'default', title: 'Specification template' },
   'PLAN_TEMPLATE'    => { layout: 'default', title: 'Implementation plan template' }
 }.freeze

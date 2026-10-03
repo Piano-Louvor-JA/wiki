@@ -21,6 +21,7 @@ const PAGES = [
   ['GOVERNANCE', '/GOVERNANCE.html'],
   ['FAQ', '/FAQ.html'],
   ['AGENTS', '/AGENTS.html'],
+  ['AGENT_SETUP', '/AGENT_SETUP.html'],
   ['SPEC_TEMPLATE', '/SPEC_TEMPLATE.html'],
   ['PLAN_TEMPLATE', '/PLAN_TEMPLATE.html'],
 ];
@@ -28,7 +29,12 @@ const PAGES = [
 const fails = [];
 const ok = (cond, msg) => { if (!cond) fails.push(msg); };
 
-const browser = await chromium.launch({ channel: 'chrome' });
+/* --disable-dev-shm-usage matters when /dev/shm is small: without it Chrome
+   crashes the tab ("Page crashed") instead of reporting a memory problem. */
+const browser = await chromium.launch({
+  channel: 'chrome',
+  args: ['--disable-dev-shm-usage', '--no-sandbox', '--disable-gpu'],
+});
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
 
@@ -72,7 +78,7 @@ for (const [slug, path] of PAGES) {
   ok(await page.isVisible('.site-footer'), `${slug}: footer ausente`);
 
   const navCount = await page.evaluate(() => document.querySelectorAll('.site-nav a').length);
-  ok(navCount === 6, `${slug}: nav deveria ter 6 links, veio ${navCount}`);
+  ok(navCount === 7, `${slug}: nav deveria ter 7 links, veio ${navCount}`);
 
   /* every nav link must actually resolve */
   const navHrefs = await page.evaluate(() =>
