@@ -11,7 +11,8 @@ Onboarding público para **developers and coding agents** working on PIANO / Lou
 | [Contributing](CONTRIBUTING.md) | Expected change shape and pull request checklist |
 | [Governance](GOVERNANCE.md) | Public documentation boundaries and change authority |
 | [FAQ](FAQ.md) | What is public, what is not, how to propose a change |
-| [AGENTS](AGENTS.md) | Rules for AI agents working with this repository |
+| [Agent guide](AGENTS.md) | Rules for AI agents working with this repository |
+| [Agent setup](AGENT_SETUP.md) | Public setup guide for coding agents — repo map, contribution rules, known traps |
 | [Spec template](SPEC_TEMPLATE.md) · [Plan template](PLAN_TEMPLATE.md) | Blank templates for a specification and an implementation plan |
 
 ## Scope
