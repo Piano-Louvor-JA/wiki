@@ -16,3 +16,5 @@ Public onboarding for contributors and coding agents working on PIANO / LouvorJA
 - [Implementation plan template](PLAN_TEMPLATE.md)
 
 This site intentionally publishes only safe, reusable onboarding material. Operational records, internal planning, infrastructure details and credentials stay private.
+
+Private project documentation is the source of truth for internal decisions. Ask a maintainer for access when needed.

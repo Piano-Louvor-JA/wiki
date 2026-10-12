@@ -1,24 +1,24 @@
-# Plan: <short name>
+# Plan: &#60;short name&#62;
 
-Linked specification: <public link or reference>
+Linked specification: &#60;public link or reference&#62;
 
 ## Goal
 
-<Outcome this plan delivers.>
+&#60;Outcome this plan delivers.&#62;
 
 ## Steps
 
-1. <small, verifiable step>
-2. <small, verifiable step>
-3. <small, verifiable step>
+1. &#60;small, verifiable step&#62;
+2. &#60;small, verifiable step&#62;
+3. &#60;small, verifiable step&#62;
 
 ## Validation
 
-- <command, test or manual check>
+- &#60;command, test or manual check&#62;
 
 ## Rollback
 
-- <safe reversal if applicable>
+- &#60;safe reversal if applicable&#62;
 
 ## Notes
 
