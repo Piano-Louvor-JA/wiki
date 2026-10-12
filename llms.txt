@@ -1,60 +1,55 @@
-> **Machine-readable index** (inspirado em llms.txt). Humanos: leia o
-> [README](README.md). Agentes de IA: este arquivo é o seu mapa.
+# PIANO LouvorJA — Developer Wiki
 
-# Piano LouvorJA — Metodologia Pública para Agentes de IA
+> Public onboarding documentation for the LouvorJA PIANO ecosystem: an app family
+> for worship and presentation at the piano. One API (Hono + SQLite) serves three
+> clients — desktop Electron, mobile Flutter and web PWA — plus a landing site.
+>
+> Everything published here is safe, reusable guidance. Internal decisions, active
+> plans, ADRs, board automation, infrastructure addresses, deployment
+> configuration and credentials are **not** published and live in private
+> documentation, which is the source of truth for internal decisions.
+>
+> Conventions for contributors and coding agents: Conventional Commits, a focused
+> pull request, and repository-level gates that must pass before review. Each
+> repository's own `AGENTS.md` and contribution guide override anything here.
 
-Contexto: sistema de apoio a cultos (liturgia, hinos, bíblia, projeção
-multi-tela) para desktop, web, mobile e TV. Organização GitHub: `Piano-Louvor-JA`.
+## Start here
 
-## Como usar este repo
+- [Getting started](https://piano-louvor-ja.github.io/wiki/GETTING_STARTED.html): contribution flow and what to read before sharing material
+- [Architecture](https://piano-louvor-ja.github.io/wiki/ARCHITECTURE.html): product ecosystem and design principles
+- [Contributing](https://piano-louvor-ja.github.io/wiki/CONTRIBUTING.html): expected change shape and pull request checklist
 
-```bash
-git clone https://github.com/Piano-Louvor-JA/wiki.git
-```
+## Working on the code
 
-Todo o contexto está em Markdown puro. Comece pelo `AGENTS.md` (convenções e
-regras "NUNCA faça"), depois navegue conforme a task.
+- [Agent setup](https://piano-louvor-ja.github.io/wiki/AGENT_SETUP.html): repository map, non-negotiable rules, and the traps that are expensive to discover on your own
+- [Agent guide](https://piano-louvor-ja.github.io/wiki/AGENTS.html): the rules for agents working with this repository
 
-## Mapa de contexto (leia nesta ordem conforme a necessidade)
+## Governance and boundaries
 
-| Arquivo | Conteúdo | Quando ler |
-|---------|----------|-----------|
-| `AGENTS.md` | Stack de cada repo, convenções, pitfalls, regras obrigatórias | **SEMPRE primeiro** |
-| `methodology/README.md` | Índice completo da metodologia (core + domain) | Para navegar na metodologia |
-| `architecture/overview.md` | Visão multi-device, paridade por contrato, WS, fallback de APIs | Qualquer feature |
-| `getting-started/app.md` | Desktop Electron: setup, debug, envs | Task no repo `app` |
-| `getting-started/web.md` | Web PWA: setup, diferenças do desktop | Task no repo `web` |
-| `getting-started/api.md` | API Hono: setup, migrations, envs | Task no repo `api` |
-| `getting-started/apk.md` | Flutter: setup, dart-define, offline | Task no repo `apk` |
-| `workflows/git-and-prs.md` | Fluxo feat→staging→main, checklist de PR | Antes de commitar |
-| `PERMISSIONS.md` | O que um contribuidor resolve sozinho vs o que requer admin | Quando algo está bloqueado |
-| `workflows/releases.md` | Versionamento e release por repo | Release |
-| `methodology/README.md` | Índice completo da metodologia (core + domain) | Para navegar na metodologia |
-| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
-| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
-| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
-| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
-| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
-| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
-| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
-| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
-| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
-| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
-| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
-| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
-| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
-| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
-| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
+- [Governance](https://piano-louvor-ja.github.io/wiki/GOVERNANCE.html): what public documentation may contain, and who decides
+- [FAQ](https://piano-louvor-ja.github.io/wiki/FAQ.html): what is public, what is not, how to propose a change
 
-## Regras inegociáveis (resumo — detalhes no AGENTS.md)
+## Templates
 
-1. Branch flow: `feat/*` → PR `staging` → PR `main`. Nenhuma exceção.
-2. Paridade web ↔ app ↔ APK (mesmos contratos de API, não mesmo código).
-3. TV = dumb display via WebSocket próprio. Chromecast não existe no projeto.
-4. Nunca commitar segredos, IPs de produção, credenciais.
+- [Specification template](https://piano-louvor-ja.github.io/wiki/SPEC_TEMPLATE.html): blank structure for a specification — problem, outcome, scope, constraints, validation, risks
+- [Plan template](https://piano-louvor-ja.github.io/wiki/PLAN_TEMPLATE.html): blank structure for an implementation plan — goal, steps, validation, rollback
 
----
+## Repository
 
-**Fonte da verdade interna**: `Piano-Louvor-JA/docs` (privado). Esta wiki é a superfície pública sanitizada.
+- [README](https://piano-louvor-ja.github.io/wiki/README.html): overview of this repository and the documents it publishes
+- [Source on GitHub](https://github.com/Piano-Louvor-JA/wiki): the repository these pages are built from
+
+## Other languages
+
+The wiki is published in the same languages the product ships: `en` (canonical, at the
+root), `es` and `pt-BR`. The app and web clients carry the same set in
+`src/locales/`. Translated documents live under `/es/` and `/pt/`; where a translation
+does not exist yet, the English page is served.
+
+- [Español](https://piano-louvor-ja.github.io/wiki/es/): arquitectura, contribución, gobernanza, preguntas frecuentes, primeros pasos
+- [Português](https://piano-louvor-ja.github.io/wiki/pt/): arquitetura, contribuição, governança, perguntas frequentes, primeiros passos
+
+## Optional
+
+- [Production site](https://pianolouvorja.com.br): the public LouvorJA PIANO site
+- [Organization on GitHub](https://github.com/Piano-Louvor-JA): all repositories in the ecosystem
