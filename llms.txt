@@ -1,0 +1,60 @@
+> **Machine-readable index** (inspirado em llms.txt). Humanos: leia o
+> [README](README.md). Agentes de IA: este arquivo é o seu mapa.
+
+# Piano LouvorJA — Metodologia Pública para Agentes de IA
+
+Contexto: sistema de apoio a cultos (liturgia, hinos, bíblia, projeção
+multi-tela) para desktop, web, mobile e TV. Organização GitHub: `Piano-Louvor-JA`.
+
+## Como usar este repo
+
+```bash
+git clone https://github.com/Piano-Louvor-JA/wiki.git
+```
+
+Todo o contexto está em Markdown puro. Comece pelo `AGENTS.md` (convenções e
+regras "NUNCA faça"), depois navegue conforme a task.
+
+## Mapa de contexto (leia nesta ordem conforme a necessidade)
+
+| Arquivo | Conteúdo | Quando ler |
+|---------|----------|-----------|
+| `AGENTS.md` | Stack de cada repo, convenções, pitfalls, regras obrigatórias | **SEMPRE primeiro** |
+| `methodology/README.md` | Índice completo da metodologia (core + domain) | Para navegar na metodologia |
+| `architecture/overview.md` | Visão multi-device, paridade por contrato, WS, fallback de APIs | Qualquer feature |
+| `getting-started/app.md` | Desktop Electron: setup, debug, envs | Task no repo `app` |
+| `getting-started/web.md` | Web PWA: setup, diferenças do desktop | Task no repo `web` |
+| `getting-started/api.md` | API Hono: setup, migrations, envs | Task no repo `api` |
+| `getting-started/apk.md` | Flutter: setup, dart-define, offline | Task no repo `apk` |
+| `workflows/git-and-prs.md` | Fluxo feat→staging→main, checklist de PR | Antes de commitar |
+| `PERMISSIONS.md` | O que um contribuidor resolve sozinho vs o que requer admin | Quando algo está bloqueado |
+| `workflows/releases.md` | Versionamento e release por repo | Release |
+| `methodology/README.md` | Índice completo da metodologia (core + domain) | Para navegar na metodologia |
+| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
+| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
+| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
+| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
+| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
+| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
+| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
+| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
+| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
+| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
+| `methodology/core/spec-driven-development.md` | Spec-Driven Development | Feature nova |
+| `methodology/core/writing-plans.md` | Writing Plans | Planejar feature |
+| `methodology/core/qa-agent.md` | QA Agent 7 Gates | QA/Review |
+| `methodology/core/project-excellence.md` | Project Excellence | Qualidade/Governança |
+| `methodology/core/piano-workflow.md` | Piano Workflow | Processo completo |
+
+## Regras inegociáveis (resumo — detalhes no AGENTS.md)
+
+1. Branch flow: `feat/*` → PR `staging` → PR `main`. Nenhuma exceção.
+2. Paridade web ↔ app ↔ APK (mesmos contratos de API, não mesmo código).
+3. TV = dumb display via WebSocket próprio. Chromecast não existe no projeto.
+4. Nunca commitar segredos, IPs de produção, credenciais.
+
+---
+
+**Fonte da verdade interna**: `Piano-Louvor-JA/docs` (privado). Esta wiki é a superfície pública sanitizada.

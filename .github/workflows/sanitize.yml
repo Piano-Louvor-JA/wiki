@@ -1,0 +1,57 @@
+name: Sanitize Wiki Content
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    name: Check for leaked secrets / personal data
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for personal emails
+        run: |
+          if grep -rniE 'rafael\.zendron[0-9]*@gmail\.com|ezequiasfonseca@gmail\.com|rafaelejosi' --include='*.md' --include='*.txt' . --exclude-dir='.git'; then
+            echo "::error::Personal email found. Replace with generic (admin@pianolouvorja.com.br / mantenedor@...)"
+            exit 1
+          fi
+          echo "No personal emails"
+
+      - name: Scan for hardcoded passwords
+        run: |
+          if grep -rniE 'Piano@2026' --include='*.md' --include='*.txt' . --exclude-dir='.git'; then
+            echo "::error::Hardcoded password found."
+            exit 1
+          fi
+          echo "No hardcoded passwords"
+
+      - name: Scan for production IPs
+        run: |
+          if grep -rnE '\b31\.97\.[0-9]{1,3}\.[0-9]{1,3}\b' --include='*.md' --include='*.txt' . --exclude-dir='.git'; then
+            echo "::error::Production IP found. Replace with IP-DA-PRODUCAO."
+            exit 1
+          fi
+          echo "No production IPs"
+
+      - name: Scan for API tokens
+        run: |
+          if grep -rniE 'ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{22,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}' --include='*.md' --include='*.txt' . --exclude-dir='.git'; then
+            echo "::error::API token pattern found."
+            exit 1
+          fi
+          echo "No API tokens"
+
+      - name: Scan for private keys
+        run: |
+          if grep -rniE 'BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY' --include='*.md' --include='*.txt' . --exclude-dir='.git'; then
+            echo "::error::Private key found!"
+            exit 1
+          fi
+          echo "No private keys"
+
+      - name: Summary
+        run: echo "Sanitization check passed."
