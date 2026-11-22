@@ -142,7 +142,7 @@ for (const [slug, path] of PAGES) {
   ok(await page.isVisible('.site-footer'), `${slug}: footer ausente`);
 
   const navCount = await page.evaluate(() => document.querySelectorAll('.site-nav a').length);
-  ok(navCount === 7, `${slug}: nav deveria ter 7 links, veio ${navCount}`);
+  ok(navCount === 9, `${slug}: nav deveria ter 9 links, veio ${navCount}`);
 
   /* every nav link must actually resolve */
   const navHrefs = await page.evaluate(() =>
@@ -183,7 +183,7 @@ const btnBg = await page.evaluate(() =>
   getComputedStyle(document.querySelector('.btn-primary')).backgroundColor);
 ok(btnBg === 'rgb(224, 137, 90)', `index: botão primário não usa a marca #E0895A (${btnBg})`);
 const steps = await page.evaluate(() => document.querySelectorAll('.main > ol > li').length);
-ok(steps === 5, `index: "Start here" deveria ter 5 passos, veio ${steps}`);
+ok(steps === 6, `index: "Start here" deveria ter 6 passos, veio ${steps}`);
 
 /* ---- theme toggle round-trip + persistence ---- */
 await page.click('#theme-toggle');

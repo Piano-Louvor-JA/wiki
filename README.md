@@ -9,6 +9,9 @@ Onboarding público para **developers and coding agents** working on PIANO / Lou
 | [Getting started](GETTING_STARTED.md) | Contribution flow and what to read before sharing material |
 | [Architecture](ARCHITECTURE.md) | Product ecosystem and design principles |
 | [Contributing](CONTRIBUTING.md) | Expected change shape and pull request checklist |
+| [Quality standards](QUALITY.md) | Test-driven development, coverage gates, review discipline |
+| [Community platform](COMMUNITY.md) | Membership roster, ranking and moderation contracts |
+| [Documentation editor](DOCS_EDITOR.md) | How volunteers edit the site docs through review |
 | [Governance](GOVERNANCE.md) | Public documentation boundaries and change authority |
 | [FAQ](FAQ.md) | What is public, what is not, how to propose a change |
 | [Agent guide](AGENTS.md) | Rules for AI agents working with this repository |

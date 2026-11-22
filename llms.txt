@@ -21,8 +21,14 @@
 
 ## Working on the code
 
+- [Quality standards](https://piano-louvor-ja.github.io/wiki/QUALITY.html): test-driven development, coverage gates and review discipline
 - [Agent setup](https://piano-louvor-ja.github.io/wiki/AGENT_SETUP.html): repository map, non-negotiable rules, and the traps that are expensive to discover on your own
 - [Agent guide](https://piano-louvor-ja.github.io/wiki/AGENTS.html): the rules for agents working with this repository
+
+## Platform behaviour
+
+- [Community platform](https://piano-louvor-ja.github.io/wiki/COMMUNITY.html): membership roster, ranking and moderation contracts
+- [Documentation editor](https://piano-louvor-ja.github.io/wiki/DOCS_EDITOR.html): how volunteers edit the site docs through pull request review
 
 ## Governance and boundaries
 

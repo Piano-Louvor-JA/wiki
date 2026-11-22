@@ -7,8 +7,14 @@ Public onboarding for contributors and coding agents working on PIANO / LouvorJA
 1. [Getting started](GETTING_STARTED.md)
 2. [Architecture](ARCHITECTURE.md)
 3. [Contributing](CONTRIBUTING.md)
-4. [Governance](GOVERNANCE.md)
-5. [FAQ](FAQ.md)
+4. [Quality standards](QUALITY.md)
+5. [Governance](GOVERNANCE.md)
+6. [FAQ](FAQ.md)
+
+## Working on the projects
+
+- [Community platform](COMMUNITY.md) — membership, ranking, moderation contracts
+- [Documentation editor](DOCS_EDITOR.md) — how volunteers edit the site docs
 
 ## Templates
 
