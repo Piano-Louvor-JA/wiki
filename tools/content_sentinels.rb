@@ -20,6 +20,9 @@ PICK = {
   'CONTRIBUTING'    => 'Avoid unrelated formatting or refactoring.',
   'GOVERNANCE'      => 'Public pages may include stable concepts, contribution workflow and blank templates.',
   'FAQ'              => 'Credentials, tokens, private paths, infrastructure addresses',
+  'QUALITY'          => 'Code without a corresponding test is not a delivered feature; it is debt.',
+  'COMMUNITY'        => 'Identity from the session, never the body.',
+  'DOCS_EDITOR'      => 'Publish — which opens a pull request, not a deployment.',
   'AGENTS'          => 'When unsure whether information is public, omit it and request review.',
   'AGENT_SETUP'     => "Opening a pull request against the wrong branch is the most",
   'SPEC_TEMPLATE'   => 'Observable result and acceptance criteria.',
@@ -40,9 +43,9 @@ end
 # README.md renders as the repository landing page on GitHub and as
 # /wiki/README.html on Pages — repo presentation, sanitized like the rest.
 EXPECTED = %w[
-  AGENTS.md AGENT_SETUP.md ARCHITECTURE.md CONTRIBUTING.md FAQ.md
-  GETTING_STARTED.md GOVERNANCE.md PLAN_TEMPLATE.md README.md
-  SPEC_TEMPLATE.md index.md
+  AGENTS.md AGENT_SETUP.md ARCHITECTURE.md COMMUNITY.md CONTRIBUTING.md
+  DOCS_EDITOR.md FAQ.md GETTING_STARTED.md GOVERNANCE.md PLAN_TEMPLATE.md
+  QUALITY.md README.md SPEC_TEMPLATE.md index.md
 ].freeze
 
 actual = Dir[File.join(SRC, '*.md')].map { |f| File.basename(f) }.sort

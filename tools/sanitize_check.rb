@@ -16,9 +16,9 @@ SRC = File.expand_path('..', __dir__)
 # Only the allowlisted documents are scanned. `tools/` is internal tooling and
 # legitimately mentions the terms it forbids.
 DOCS = %w[
-  AGENTS.md AGENT_SETUP.md ARCHITECTURE.md CONTRIBUTING.md FAQ.md
-  GETTING_STARTED.md GOVERNANCE.md PLAN_TEMPLATE.md README.md
-  SPEC_TEMPLATE.md index.md
+  AGENTS.md AGENT_SETUP.md ARCHITECTURE.md COMMUNITY.md CONTRIBUTING.md
+  DOCS_EDITOR.md FAQ.md GETTING_STARTED.md GOVERNANCE.md PLAN_TEMPLATE.md
+  QUALITY.md README.md SPEC_TEMPLATE.md index.md
 ].freeze
 
 violations = []
